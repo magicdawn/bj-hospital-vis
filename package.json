@@ -4,9 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha",
-    "test-cover": "nyc --reporter=lcov --reporter=text mocha",
-    "report-cover": "codecov"
+    "dev": "poi src/index.js --serve --open --port 4100"
   },
   "keywords": [],
   "author": "",
@@ -14,14 +12,23 @@
   "devDependencies": {
     "@magicdawn/eslint-config": "^0.0.1",
     "@magicdawn/prettier-config": "^0.0.1",
+    "babel-eslint": "^10.0.3",
+    "babel-plugin-lodash": "^3.3.4",
     "codecov": "^3.3.0",
+    "eslint": "^6.7.2",
+    "eslint-plugin-vue": "^6.0.1",
+    "html-external-webpack-plugin": "^0.0.2",
+    "husky": "latest",
+    "less": "^3.10.3",
+    "less-loader": "^5.0.0",
+    "lint-staged": "latest",
     "mocha": "^6.1.4",
     "nyc": "^14.0.0",
-    "should": "^13.2.3",
-    "eslint": "latest",
     "prettier": "latest",
-    "husky": "latest",
-    "lint-staged": "latest"
+    "should": "^13.2.3",
+    "vue": "^2.6.10",
+    "vue-loader": "^15.7.2",
+    "vue-template-compiler": "^2.6.10"
   },
   "husky": {
     "hooks": {
@@ -37,6 +44,7 @@
   "dependencies": {
     "lodash": "^4.17.15",
     "mapbox-gl": "^1.6.0",
+    "moment": "^2.24.0",
     "poi": "^12.7.3",
     "vue": "^2.6.10",
     "vue-mgl": "^0.1.1",
