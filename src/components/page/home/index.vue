@@ -1,6 +1,12 @@
 <template lang="html">
   <div class="page-home">
-    <MglMap class="map" :center.sync="center" :zoom.sync="zoom" :mapStyle="mapStyle">
+    <MglMap
+      class="map"
+      :center.sync="center"
+      :zoom.sync="zoom"
+      :mapStyle="mapStyle"
+      :attributionControl="false"
+    >
       <!-- bottom right -->
       <MglNavigationControl position="bottom-right" />
     </MglMap>
@@ -27,6 +33,10 @@ export default {
 
   .map {
     height: 100%;
+  }
+
+  /deep/ .mapboxgl-ctrl-logo {
+    display: none !important;
   }
 }
 </style>
