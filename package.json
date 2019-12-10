@@ -42,10 +42,16 @@
     ]
   },
   "dependencies": {
+    "cheerio": "^1.0.0-rc.3",
     "lodash": "^4.17.15",
     "mapbox-gl": "^1.6.0",
     "moment": "^2.24.0",
+    "ms": "^2.1.2",
+    "next-page-kit": "^0.0.3",
     "poi": "^12.7.3",
+    "promise.map": "^0.0.2",
+    "promise.retry": "^0.2.0",
+    "umi-request": "^1.2.14",
     "vue": "^2.6.10",
     "vue-mgl": "^0.1.1",
     "vue-router": "^3.1.3",
