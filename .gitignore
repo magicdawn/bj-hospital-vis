@@ -10,3 +10,4 @@ coverage
 coverage.*
 
 dist
+crawler/.env
