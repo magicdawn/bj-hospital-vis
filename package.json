@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "poi src/index.js --serve --open --port 4100"
+    "dev": "poi src/index.js --serve --open --port 4100",
+    "build": "poi src/index.js --prod"
   },
   "keywords": [],
   "author": "",
