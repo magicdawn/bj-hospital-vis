@@ -5,7 +5,7 @@ const HtmlExternalWebpackPlugin = require('html-external-webpack-plugin')
 
 module.exports = {
   babel: {
-    transpileModules: [/@magicdawn\/x/],
+    // transpileModules: [/@magicdawn\/x/],
   },
 
   configureWebpack(config) {

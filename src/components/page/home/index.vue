@@ -9,13 +9,17 @@
     >
       <!-- bottom right -->
       <MglNavigationControl position="bottom-right" />
+
+      <MglSource type="geojson" :data="geojson">
+        <MglLayer v-bind="hospitalLayer" />
+      </MglSource>
     </MglMap>
   </div>
 </template>
 
 <script>
 import request from '../../../request.js'
-import {preventObserve} from '@magicdawn/x/vue'
+// import {preventObserve} from '@magicdawn/x/vue'
 
 export default {
   data() {
@@ -28,7 +32,41 @@ export default {
     }
   },
 
-  computed: {},
+  computed: {
+    geojson() {
+      const ret = {
+        type: 'FeatureCollection',
+        features: this.list.map(item => {
+          const {code, name, lng, lat, rank, category} = item
+          return {
+            type: 'Feature',
+            geometry: {
+              type: 'Point',
+              coordinates: [lng, lat],
+            },
+            properties: {
+              code,
+              name,
+              rank,
+              category,
+            },
+          }
+        }),
+      }
+
+      return ret
+    },
+
+    hospitalLayer() {
+      return {
+        type: 'circle',
+        paint: {
+          'circle-color': '#ff0000',
+        },
+        layout: {},
+      }
+    },
+  },
 
   mounted() {
     this.init()
