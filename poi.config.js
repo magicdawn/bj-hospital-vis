@@ -4,6 +4,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const HtmlExternalWebpackPlugin = require('html-external-webpack-plugin')
 
 module.exports = {
+  babel: {
+    transpileModules: [/@magicdawn\/x/],
+  },
+
   configureWebpack(config) {
     // config.devtool = '#inline-source-map'
     config.devtool = false
