@@ -6,18 +6,28 @@
       :zoom.sync="zoom"
       :mapStyle="mapStyle"
       :attributionControl="false"
+      @load="onMapLoad"
     >
       <!-- bottom right -->
       <MglNavigationControl position="bottom-right" />
 
       <MglSource type="geojson" :data="geojson">
-        <MglLayer v-bind="hospitalLayer" />
+        <MglLayer
+          v-bind="hospitalLayer"
+          @mouseenter="hospitalLayerMouseenter"
+          @mouseleave="hospitalLayerMouseleave"
+        />
       </MglSource>
+
+      <MglPopup v-if="currentItem" :lnglat="[currentItem.lng, currentItem.lat]" :show="true">
+        {{ JSON.stringify(currentItem) }}
+      </MglPopup>
     </MglMap>
   </div>
 </template>
 
 <script>
+import _ from 'lodash'
 import request from '../../../request.js'
 // import {preventObserve} from '@magicdawn/x/vue'
 
@@ -29,6 +39,7 @@ export default {
       mapStyle: 'mapbox://styles/mapbox/light-v9',
 
       list: [],
+      currentItem: null,
     }
   },
 
@@ -45,10 +56,7 @@ export default {
               coordinates: [lng, lat],
             },
             properties: {
-              code,
-              name,
-              rank,
-              category,
+              ...item,
             },
           }
         }),
@@ -79,6 +87,20 @@ export default {
         const [code, name, lng, lat, rank, category] = row
         return {code, name, lng, lat, rank, category}
       })
+    },
+
+    onMapLoad({map, component}) {},
+
+    hospitalLayerMouseenter(e) {
+      const properties = _.get(e, 'features.0.properties')
+      if (!properties) {
+        this.currentItem = null
+        return
+      }
+      this.currentItem = {...properties}
+    },
+    hospitalLayerMouseleave(e) {
+      this.currentItem = null
     },
   },
 }
