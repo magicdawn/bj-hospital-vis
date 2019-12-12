@@ -1,5 +1,6 @@
+const fs = require('fs')
+const _ = require('lodash')
 const yargs = require('yargs')
-
 const Sequelize = require('sequelize')
 const sequelize = new Sequelize(require('./sequelize-options.js'))
 const {Op, INTEGER, STRING, NUMBER, DATE} = Sequelize
@@ -105,11 +106,28 @@ const commandGeo = {
   },
 }
 
+const commandGenerateJson = {
+  command: 'generate-json',
+  desc: '生成前端静态 json',
+  async handler(argv) {
+    let rows = await Hospital.findAll()
+    rows = rows.map(row => {
+      const keys = ['code', 'name', 'lng', 'lat', 'rank', 'category']
+      const rowData = row.get()
+      return keys.map(k => rowData[k])
+    })
+
+    fs.writeFileSync(__dirname + '/../public/data/hospital-with-geo.json', JSON.stringify(rows))
+    console.log('[done]: file hospital-with-geo.json writed')
+  },
+}
+
 const argv = yargs
   .alias({
     h: 'help',
   })
   .command(commandToSqlite)
   .command(commandGeo)
+  .command(commandGenerateJson)
   .demandCommand()
   .help().argv
