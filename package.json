@@ -45,7 +45,7 @@
     ]
   },
   "dependencies": {
-    "@magicdawn/x": "latest",
+    "@magicdawn/x": "git://github.com/magicdawn/x.git",
     "@turf/turf": "^5.1.6",
     "ant-design-vue": "^1.4.10",
     "cheerio": "^1.0.0-rc.3",
