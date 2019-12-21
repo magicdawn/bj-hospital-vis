@@ -122,6 +122,11 @@ const commandGenerateJson = {
   },
 }
 
+const commandGetPolygon = {
+  command: 'get-polygon',
+  desc: '',
+}
+
 const argv = yargs
   .alias({
     h: 'help',
@@ -129,5 +134,6 @@ const argv = yargs
   .command(commandToSqlite)
   .command(commandGeo)
   .command(commandGenerateJson)
+  .command(commandGetPolygon)
   .demandCommand()
   .help().argv

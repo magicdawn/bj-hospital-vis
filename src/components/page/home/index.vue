@@ -29,7 +29,7 @@
 <script>
 import _ from 'lodash'
 import request from '../../../request.js'
-// import {preventObserve} from '@magicdawn/x/vue'
+import {preventObserve} from '@magicdawn/x/vue'
 
 export default {
   data() {
@@ -83,10 +83,14 @@ export default {
   methods: {
     async init() {
       const json = await request.get('/data/hospital-with-geo.json')
-      this.list = json.map(row => {
+
+      const list = json.map(row => {
         const [code, name, lng, lat, rank, category] = row
         return {code, name, lng, lat, rank, category}
       })
+
+      preventObserve(list)
+      this.list = list
     },
 
     onMapLoad({map, component}) {},

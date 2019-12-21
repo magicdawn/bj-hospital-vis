@@ -30,6 +30,18 @@ exports.geo = async address => {
   return {lng, lat, amapGeoResponse: JSON.stringify(json)}
 }
 
+exports.polygon = async function() {
+  const json = await request.get('https://restapi.amap.com/v3/config/district', {
+    params: {
+      key: process.env.AMAP_KEY,
+      keywords: '010', // bj citycode
+      subdistrict: 1,
+    },
+  })
+  return json
+}
+
 if (module === process.mainModule) {
   // exports.geo('北京市大兴区亦庄镇经海二路2号').then(console.log)
+  // exports.polygon()
 }
