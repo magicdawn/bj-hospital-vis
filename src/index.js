@@ -10,12 +10,13 @@ mgl.accessToken =
   'pk.eyJ1IjoibWFnaWNkYXduIiwiYSI6ImNqYTNyNjd1azJyMGkzMnFyNW1qaXlrcWYifQ.kveR7H0P9euTkAC5QZjg5A'
 
 // vue-ant-design
-import {Form, Button, Input, RadioButton, Select, Card} from 'ant-design-vue'
+import {Form, Button, Input, RadioButton, Select, Card, AutoComplete} from 'ant-design-vue'
 Vue.use(Form)
 Vue.use(Button)
 Vue.use(Input)
 Vue.use(Select)
 Vue.use(Card)
+Vue.use(AutoComplete)
 
 new Vue({
   el: '#app',
