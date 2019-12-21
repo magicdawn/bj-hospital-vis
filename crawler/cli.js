@@ -4,7 +4,7 @@ const yargs = require('yargs')
 const Sequelize = require('sequelize')
 const sequelize = new Sequelize(require('./sequelize-options.js'))
 const {Op, INTEGER, STRING, NUMBER, DATE} = Sequelize
-const {geo} = require('./official/use-amap-api.js')
+const {geo, polygon} = require('./official/use-amap-api.js')
 require('./dotenv')
 
 const Hospital = sequelize.define(
@@ -124,7 +124,17 @@ const commandGenerateJson = {
 
 const commandGetPolygon = {
   command: 'get-polygon',
-  desc: '',
+  desc: 'get bj polygon',
+  async handler(argv) {
+    const json = await polygon()
+
+    const arr = json.districts
+    const file = __dirname + '/../public/data/district.json'
+    const content = JSON.stringify(arr)
+    fs.writeFileSync(file, content, 'utf8')
+
+    console.log('[done]: districts.json writed')
+  },
 }
 
 const argv = yargs

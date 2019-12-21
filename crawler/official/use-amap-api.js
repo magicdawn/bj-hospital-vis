@@ -36,6 +36,7 @@ exports.polygon = async function() {
       key: process.env.AMAP_KEY,
       keywords: '010', // bj citycode
       subdistrict: 1,
+      extensions: 'all',
     },
   })
   return json
