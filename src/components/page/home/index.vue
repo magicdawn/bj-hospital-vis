@@ -29,8 +29,19 @@
           />
         </MglSource>
 
-        <MglPopup v-if="currentItem" :lnglat="[currentItem.lng, currentItem.lat]" :show="true">
-          {{ JSON.stringify(currentItem) }}
+        <MglPopup
+          v-if="currentItem"
+          :lnglat="[currentItem.lng, currentItem.lat]"
+          :show="true"
+          ref="mglPopup"
+        >
+          <a-card :title="currentItem.name" style="min-width: 350px;">
+            <!-- <p>{{ JSON.stringify(currentItem) }}</p> -->
+            <p>名称: {{ currentItem.name }}</p>
+            <p>代码: {{ currentItem.code }}</p>
+            <p>评级: {{ currentItem.rank }}</p>
+            <p>分类: {{ currentItem.category }}</p>
+          </a-card>
         </MglPopup>
       </MglMap>
     </div>
@@ -284,9 +295,12 @@ export default {
         return
       }
       this.currentItem = {...properties}
+
+      // force open
+      this.$refs.mglPopup && this.$refs.mglPopup.showPopup()
     },
     hospitalLayerMouseleave(e) {
-      this.currentItem = null
+      // this.currentItem = null
     },
 
     async handleDistrictChange(newVal) {
@@ -344,6 +358,7 @@ export default {
       }
 
       this.currentList = list
+      this.currentItem = null
     },
   },
 }
@@ -359,8 +374,22 @@ export default {
     height: 100%;
   }
 
-  /deep/ .mapboxgl-ctrl-logo {
-    display: none !important;
+  /deep/ .mapboxgl-map {
+    .mapboxgl-ctrl-logo {
+      // display: none !important;
+    }
+
+    .mapboxgl-popup {
+      max-width: 500px !important;
+    }
+
+    .mapboxgl-popup-content {
+      padding: 0;
+    }
+
+    .mapboxgl-popup-close-button {
+      z-index: 10;
+    }
   }
 }
 
