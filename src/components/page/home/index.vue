@@ -11,6 +11,15 @@
       <!-- bottom right -->
       <MglNavigationControl position="bottom-right" />
 
+      <MglPolygon
+        v-if="currentPolygon"
+        :geojson="currentPolygon"
+        :border-color="'red'"
+        :border-width="1"
+        :fill-color="'green'"
+        :fill-opacity="0.1"
+      />
+
       <MglSource type="geojson" :data="geojson">
         <MglLayer
           v-bind="hospitalLayer"
@@ -30,6 +39,8 @@
 import _ from 'lodash'
 import request from '../../../request.js'
 import {preventObserve} from '@magicdawn/x/vue'
+import Loading from '../../../util/Loading.vue'
+import * as turf from '@turf/turf'
 
 export default {
   data() {
@@ -40,6 +51,9 @@ export default {
 
       list: [],
       currentItem: null,
+
+      districtList: [],
+      currentAdcode: '110000',
     }
   },
 
@@ -74,6 +88,12 @@ export default {
         layout: {},
       }
     },
+
+    currentPolygon() {
+      const {currentAdcode, districtList} = this
+      const item = _.find(districtList, {adcode: currentAdcode})
+      return item && item.polygon
+    },
   },
 
   mounted() {
@@ -82,6 +102,55 @@ export default {
 
   methods: {
     async init() {
+      Loading.show()
+      try {
+        await Promise.all([
+          // apis
+          this.initList(),
+          this.initDistrict(),
+          this.waitMapReady(),
+        ])
+      } finally {
+        Loading.hide()
+      }
+
+      const b = turf.bbox(this.currentPolygon)
+      this.map.fitBounds(b, {
+        padding: {
+          left: 50,
+          bottom: 50,
+          right: 0,
+          top: 0,
+        },
+      })
+    },
+
+    async initDistrict() {
+      const arr = await request.get('/data/district.json')
+
+      for (let item of arr) {
+        const {polyline} = item
+        const polygon = {
+          type: 'Polygon',
+          coordinates: [
+            [
+              ...polyline.split(';').map(p => {
+                let [lng, lat] = p.split(',')
+                ;[lng, lat] = [lng, lat].map(Number)
+                return [lng, lat]
+              }),
+            ],
+          ],
+        }
+
+        preventObserve(polygon)
+        item.polygon = polygon
+      }
+
+      this.districtList = arr
+    },
+
+    async initList() {
       const json = await request.get('/data/hospital-with-geo.json')
 
       const list = json.map(row => {
@@ -93,7 +162,15 @@ export default {
       this.list = list
     },
 
-    onMapLoad({map, component}) {},
+    onMapLoad({map, component}) {
+      this.map = map
+      this.mapReady = true
+      this.$emit('map-ready')
+    },
+    async waitMapReady() {
+      if (this.mapReady) return
+      return new Promise(r => this.$once('map-ready', r))
+    },
 
     hospitalLayerMouseenter(e) {
       const properties = _.get(e, 'features.0.properties')
