@@ -50,6 +50,7 @@ export default Loading
   top: 0;
   width: 100vw;
   height: 100vh;
+  z-index: 1000;
   background-color: rgba(0, 0, 0, 0.3);
 
   display: flex;

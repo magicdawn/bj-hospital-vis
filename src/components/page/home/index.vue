@@ -1,37 +1,79 @@
 <template lang="html">
   <div class="page-home">
-    <MglMap
-      class="map"
-      :center.sync="center"
-      :zoom.sync="zoom"
-      :mapStyle="mapStyle"
-      :attributionControl="false"
-      @load="onMapLoad"
-    >
-      <!-- bottom right -->
-      <MglNavigationControl position="bottom-right" />
+    <div class="map-wrapper">
+      <MglMap
+        class="map"
+        :center.sync="center"
+        :zoom.sync="zoom"
+        :mapStyle="mapStyle"
+        :attributionControl="false"
+        @load="onMapLoad"
+      >
+        <!-- bottom right -->
+        <MglNavigationControl position="bottom-right" />
 
-      <MglPolygon
-        v-if="currentPolygon"
-        :geojson="currentPolygon"
-        :border-color="'red'"
-        :border-width="1"
-        :fill-color="'green'"
-        :fill-opacity="0.1"
-      />
-
-      <MglSource type="geojson" :data="geojson">
-        <MglLayer
-          v-bind="hospitalLayer"
-          @mouseenter="hospitalLayerMouseenter"
-          @mouseleave="hospitalLayerMouseleave"
+        <MglPolygon
+          v-if="currentPolygon"
+          :geojson="currentPolygon"
+          :border-color="'purple'"
+          :border-width="1"
+          :fill-color="'green'"
+          :fill-paint="polygonFillPaint"
         />
-      </MglSource>
 
-      <MglPopup v-if="currentItem" :lnglat="[currentItem.lng, currentItem.lat]" :show="true">
-        {{ JSON.stringify(currentItem) }}
-      </MglPopup>
-    </MglMap>
+        <MglSource type="geojson" :data="geojson">
+          <MglLayer
+            v-bind="hospitalLayer"
+            @mouseenter="hospitalLayerMouseenter"
+            @mouseleave="hospitalLayerMouseleave"
+          />
+        </MglSource>
+
+        <MglPopup v-if="currentItem" :lnglat="[currentItem.lng, currentItem.lat]" :show="true">
+          {{ JSON.stringify(currentItem) }}
+        </MglPopup>
+      </MglMap>
+    </div>
+
+    <CollapsePanel class="left-panel" side="left" :gap="10" v-model="showLeftPanel">
+      <h1 class="title">医院筛选</h1>
+
+      <a-form-item label="名称搜索" :label-col="{span: 6}" :wrapper-col="{span: 14}">
+        <a-input placeholder="input placeholder" />
+      </a-form-item>
+
+      <a-form :layout="'horizontal'">
+        <a-form-item label="地区" :label-col="{span: 6}" :wrapper-col="{span: 14}">
+          <a-select v-model="currentAdcode" @change="handleDistrictChange">
+            <a-select-option v-for="item in districtList" :key="item.adcode" :value="item.adcode">
+              {{ item.name }}
+            </a-select-option>
+          </a-select>
+        </a-form-item>
+
+        <a-form-item label="评级" :label-col="{span: 6}" :wrapper-col="{span: 14}">
+          <a-select v-model="currentRank">
+            <a-select-option v-for="item in ALL_RANK" :key="item" :value="item">
+              {{ item }}
+            </a-select-option>
+          </a-select>
+        </a-form-item>
+
+        <a-form-item label="分类" :label-col="{span: 6}" :wrapper-col="{span: 14}">
+          <a-select v-model="currentCategory">
+            <a-select-option v-for="item in ALL_CATEGORY" :key="item" :value="item">
+              {{ item }}
+            </a-select-option>
+          </a-select>
+        </a-form-item>
+
+        <!-- <a-form-item :wrapper-col="{push: 6, span: 10}">
+          <a-button type="primary">
+            Submit
+          </a-button>
+        </a-form-item> -->
+      </a-form>
+    </CollapsePanel>
   </div>
 </template>
 
@@ -41,19 +83,55 @@ import request from '../../../request.js'
 import {preventObserve} from '@magicdawn/x/vue'
 import Loading from '../../../util/Loading.vue'
 import * as turf from '@turf/turf'
+import CollapsePanel from '../../panel/collapse-panel.vue'
+
+const DEFAULT_AD_CODE = '110000'
+const ALL = '全部'
+const ALL_RANK = [ALL, '未评级', '三级', '二级', '一级']
+const ALL_CATEGORY = [ALL, '对内', '对外综合', '对外中医', '对外专科', '社区卫生站', '村卫生室']
 
 export default {
+  components: {CollapsePanel},
+
   data() {
     return {
+      ALL_RANK,
+      ALL_CATEGORY,
+
       center: [116.42610785602722, 39.91191408461194],
       zoom: 12,
       mapStyle: 'mapbox://styles/mapbox/light-v9',
 
-      list: [],
+      fulllist: [],
       currentItem: null,
 
       districtList: [],
-      currentAdcode: '110000',
+      polygonFillPaint: {
+        'fill-opacity': [
+          'interpolate',
+          ['linear'],
+          ['zoom'],
+          //
+          8,
+          0.1,
+
+          10,
+          0.06,
+
+          18,
+          0.01,
+        ],
+      },
+
+      showLeftPanel: true,
+
+      /**
+       * 搜索项
+       */
+
+      currentAdcode: DEFAULT_AD_CODE,
+      currentRank: ALL,
+      currentCategory: ALL,
     }
   },
 
@@ -61,7 +139,7 @@ export default {
     geojson() {
       const ret = {
         type: 'FeatureCollection',
-        features: this.list.map(item => {
+        features: this.currentList.map(item => {
           const {code, name, lng, lat, rank, category} = item
           return {
             type: 'Feature',
@@ -84,6 +162,20 @@ export default {
         type: 'circle',
         paint: {
           'circle-color': '#ff0000',
+          'circle-radius': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            // zoom, ?px
+            8,
+            5,
+
+            10,
+            6,
+
+            18,
+            15,
+          ],
         },
         layout: {},
       }
@@ -93,6 +185,43 @@ export default {
       const {currentAdcode, districtList} = this
       const item = _.find(districtList, {adcode: currentAdcode})
       return item && item.polygon
+    },
+
+    currentList() {
+      const start = Date.now()
+      let {fulllist: list, currentRank, currentCategory} = this
+
+      // rank
+      if (currentRank !== ALL) {
+        list = list.filter(item => item.rank === currentRank)
+      }
+
+      // category
+      if (currentCategory !== ALL) {
+        list = list.filter(item => item.category === currentCategory)
+      }
+
+      // polygon filter
+      const {currentPolygon, currentAdcode} = this
+      if (currentPolygon && currentAdcode !== DEFAULT_AD_CODE) {
+        list = list.filter(item => {
+          const {lng, lat} = item
+          const p = [lng, lat]
+          const inPolygon = turf.booleanPointInPolygon(p, currentPolygon)
+          return inPolygon
+        })
+      }
+
+      console.log('calc for currentList ', Date.now() - start)
+      return list
+    },
+  },
+
+  watch: {
+    async currentPolygon(newVal) {
+      if (!this.mapReady) return
+      await this.$nextTick()
+      this.fitBounds()
     },
   },
 
@@ -114,15 +243,8 @@ export default {
         Loading.hide()
       }
 
-      const b = turf.bbox(this.currentPolygon)
-      this.map.fitBounds(b, {
-        padding: {
-          left: 50,
-          bottom: 50,
-          right: 0,
-          top: 0,
-        },
-      })
+      // bounds
+      this.fitBounds()
     },
 
     async initDistrict() {
@@ -159,7 +281,7 @@ export default {
       })
 
       preventObserve(list)
-      this.list = list
+      this.fulllist = list
     },
 
     onMapLoad({map, component}) {
@@ -183,20 +305,52 @@ export default {
     hospitalLayerMouseleave(e) {
       this.currentItem = null
     },
+
+    async handleDistrictChange(newVal) {
+      await this.$nextTick()
+    },
+
+    fitBounds() {
+      const b = turf.bbox(this.currentPolygon)
+      this.map.fitBounds(b, {
+        padding: {
+          left: 50,
+          bottom: 50,
+          right: 0,
+          top: 0,
+        },
+      })
+    },
   },
 }
 </script>
 
 <style lang="less" scoped>
 .page-home {
-  height: 100vh;
-
+  .map-wrapper {
+    height: 100vh;
+  }
   .map {
+    width: 100%;
     height: 100%;
   }
 
   /deep/ .mapboxgl-ctrl-logo {
     display: none !important;
+  }
+}
+
+.left-panel {
+  width: 300px;
+  top: 80px;
+  height: 500px;
+  background-color: fade(#eee, 90%);
+  border-radius: 8px;
+  border: 1px solid #ccc;
+
+  .title {
+    text-align: center;
+    margin-top: 10px;
   }
 }
 </style>

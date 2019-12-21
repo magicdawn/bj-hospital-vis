@@ -1,0 +1,615 @@
+
+{
+  "header": {
+    "reportVersion": 1,
+    "event": "Allocation failed - JavaScript heap out of memory",
+    "trigger": "FatalError",
+    "filename": "report.20191221.164641.26173.0.001.json",
+    "dumpEventTime": "2019-12-21T16:46:41Z",
+    "dumpEventTimeStamp": "1576918001036",
+    "processId": 26173,
+    "cwd": "/Users/magicdawn/projects/bj-hospital-vis",
+    "commandLine": [
+      "/Users/magicdawn/.nvs/node/12.13.0/x64/bin/node",
+      "/Users/magicdawn/projects/bj-hospital-vis/node_modules/.bin/poi",
+      "src/index.js",
+      "--serve",
+      "--port",
+      "4100"
+    ],
+    "nodejsVersion": "v12.13.0",
+    "wordSize": 64,
+    "arch": "x64",
+    "platform": "darwin",
+    "componentVersions": {
+      "node": "12.13.0",
+      "v8": "7.7.299.13-node.12",
+      "uv": "1.32.0",
+      "zlib": "1.2.11",
+      "brotli": "1.0.7",
+      "ares": "1.15.0",
+      "modules": "72",
+      "nghttp2": "1.39.2",
+      "napi": "5",
+      "llhttp": "1.1.4",
+      "http_parser": "2.8.0",
+      "openssl": "1.1.1d",
+      "cldr": "35.1",
+      "icu": "64.2",
+      "tz": "2019a",
+      "unicode": "12.1"
+    },
+    "release": {
+      "name": "node",
+      "lts": "Erbium",
+      "headersUrl": "https://nodejs.org/download/release/v12.13.0/node-v12.13.0-headers.tar.gz",
+      "sourceUrl": "https://nodejs.org/download/release/v12.13.0/node-v12.13.0.tar.gz"
+    },
+    "osName": "Darwin",
+    "osRelease": "19.2.0",
+    "osVersion": "Darwin Kernel Version 19.2.0: Sat Nov  9 03:47:04 PST 2019; root:xnu-6153.61.1~20/RELEASE_X86_64",
+    "osMachine": "x86_64",
+    "cpus": [
+      {
+        "model": "Intel(R) Core(TM) i7-4770HQ CPU @ 2.20GHz",
+        "speed": 2200,
+        "user": 1991740,
+        "nice": 0,
+        "sys": 1838210,
+        "idle": 6442020,
+        "irq": 0
+      },
+      {
+        "model": "Intel(R) Core(TM) i7-4770HQ CPU @ 2.20GHz",
+        "speed": 2200,
+        "user": 395730,
+        "nice": 0,
+        "sys": 484710,
+        "idle": 9389650,
+        "irq": 0
+      },
+      {
+        "model": "Intel(R) Core(TM) i7-4770HQ CPU @ 2.20GHz",
+        "speed": 2200,
+        "user": 1869180,
+        "nice": 0,
+        "sys": 1559610,
+        "idle": 6841880,
+        "irq": 0
+      },
+      {
+        "model": "Intel(R) Core(TM) i7-4770HQ CPU @ 2.20GHz",
+        "speed": 2200,
+        "user": 410150,
+        "nice": 0,
+        "sys": 421180,
+        "idle": 9438660,
+        "irq": 0
+      },
+      {
+        "model": "Intel(R) Core(TM) i7-4770HQ CPU @ 2.20GHz",
+        "speed": 2200,
+        "user": 1772120,
+        "nice": 0,
+        "sys": 1392680,
+        "idle": 7105620,
+        "irq": 0
+      },
+      {
+        "model": "Intel(R) Core(TM) i7-4770HQ CPU @ 2.20GHz",
+        "speed": 2200,
+        "user": 429510,
+        "nice": 0,
+        "sys": 375370,
+        "idle": 9465000,
+        "irq": 0
+      },
+      {
+        "model": "Intel(R) Core(TM) i7-4770HQ CPU @ 2.20GHz",
+        "speed": 2200,
+        "user": 1721800,
+        "nice": 0,
+        "sys": 1258610,
+        "idle": 7289800,
+        "irq": 0
+      },
+      {
+        "model": "Intel(R) Core(TM) i7-4770HQ CPU @ 2.20GHz",
+        "speed": 2200,
+        "user": 445080,
+        "nice": 0,
+        "sys": 348150,
+        "idle": 9476540,
+        "irq": 0
+      }
+    ],
+    "networkInterfaces": [
+      {
+        "name": "lo0",
+        "internal": true,
+        "mac": "00:00:00:00:00:00",
+        "address": "127.0.0.1",
+        "netmask": "255.0.0.0",
+        "family": "IPv4"
+      },
+      {
+        "name": "lo0",
+        "internal": true,
+        "mac": "00:00:00:00:00:00",
+        "address": "::1",
+        "netmask": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff",
+        "family": "IPv6",
+        "scopeid": 0
+      },
+      {
+        "name": "lo0",
+        "internal": true,
+        "mac": "00:00:00:00:00:00",
+        "address": "fe80::1",
+        "netmask": "ffff:ffff:ffff:ffff::",
+        "family": "IPv6",
+        "scopeid": 1
+      },
+      {
+        "name": "en0",
+        "internal": false,
+        "mac": "f4:5c:89:af:0b:15",
+        "address": "fe80::8ff:6daf:46b9:a62e",
+        "netmask": "ffff:ffff:ffff:ffff::",
+        "family": "IPv6",
+        "scopeid": 5
+      },
+      {
+        "name": "en0",
+        "internal": false,
+        "mac": "f4:5c:89:af:0b:15",
+        "address": "192.168.0.101",
+        "netmask": "255.255.255.0",
+        "family": "IPv4"
+      },
+      {
+        "name": "awdl0",
+        "internal": false,
+        "mac": "96:a9:8c:b1:1d:c4",
+        "address": "fe80::94a9:8cff:feb1:1dc4",
+        "netmask": "ffff:ffff:ffff:ffff::",
+        "family": "IPv6",
+        "scopeid": 9
+      },
+      {
+        "name": "llw0",
+        "internal": false,
+        "mac": "96:a9:8c:b1:1d:c4",
+        "address": "fe80::94a9:8cff:feb1:1dc4",
+        "netmask": "ffff:ffff:ffff:ffff::",
+        "family": "IPv6",
+        "scopeid": 10
+      },
+      {
+        "name": "utun0",
+        "internal": false,
+        "mac": "00:00:00:00:00:00",
+        "address": "fe80::827b:d250:ee3c:3348",
+        "netmask": "ffff:ffff:ffff:ffff::",
+        "family": "IPv6",
+        "scopeid": 12
+      },
+      {
+        "name": "utun1",
+        "internal": false,
+        "mac": "00:00:00:00:00:00",
+        "address": "fe80::1aa4:1102:3df1:9674",
+        "netmask": "ffff:ffff:ffff:ffff::",
+        "family": "IPv6",
+        "scopeid": 13
+      },
+      {
+        "name": "utun2",
+        "internal": false,
+        "mac": "00:00:00:00:00:00",
+        "address": "fe80::4dcf:26d6:1367:6452",
+        "netmask": "ffff:ffff:ffff:ffff::",
+        "family": "IPv6",
+        "scopeid": 14
+      },
+      {
+        "name": "utun3",
+        "internal": false,
+        "mac": "00:00:00:00:00:00",
+        "address": "fe80::2c0b:2ebb:8b7f:6bbf",
+        "netmask": "ffff:ffff:ffff:ffff::",
+        "family": "IPv6",
+        "scopeid": 15
+      }
+    ],
+    "host": "localhost"
+  },
+  "javascriptStack": {
+    "message": "No stack.",
+    "stack": [
+      "Unavailable."
+    ]
+  },
+  "nativeStack": [
+    {
+      "pc": "0x000000010014da5c",
+      "symbol": "report::TriggerNodeReport(v8::Isolate*, node::Environment*, char const*, char const*, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, v8::Local<v8::String>) [/Users/magicdawn/.nvs/node/12.13.0/x64/bin/node]"
+    },
+    {
+      "pc": "0x000000010007e8a3",
+      "symbol": "node::OnFatalError(char const*, char const*) [/Users/magicdawn/.nvs/node/12.13.0/x64/bin/node]"
+    },
+    {
+      "pc": "0x0000000100176267",
+      "symbol": "v8::Utils::ReportOOMFailure(v8::internal::Isolate*, char const*, bool) [/Users/magicdawn/.nvs/node/12.13.0/x64/bin/node]"
+    },
+    {
+      "pc": "0x0000000100176203",
+      "symbol": "v8::internal::V8::FatalProcessOutOfMemory(v8::internal::Isolate*, char const*, bool) [/Users/magicdawn/.nvs/node/12.13.0/x64/bin/node]"
+    },
+    {
+      "pc": "0x00000001002fa2b5",
+      "symbol": "v8::internal::Heap::FatalProcessOutOfMemory(char const*) [/Users/magicdawn/.nvs/node/12.13.0/x64/bin/node]"
+    },
+    {
+      "pc": "0x00000001002fb984",
+      "symbol": "v8::internal::Heap::RecomputeLimits(v8::internal::GarbageCollector) [/Users/magicdawn/.nvs/node/12.13.0/x64/bin/node]"
+    },
+    {
+      "pc": "0x00000001002f8857",
+      "symbol": "v8::internal::Heap::PerformGarbageCollection(v8::internal::GarbageCollector, v8::GCCallbackFlags) [/Users/magicdawn/.nvs/node/12.13.0/x64/bin/node]"
+    },
+    {
+      "pc": "0x00000001002f683d",
+      "symbol": "v8::internal::Heap::CollectGarbage(v8::internal::AllocationSpace, v8::internal::GarbageCollectionReason, v8::GCCallbackFlags) [/Users/magicdawn/.nvs/node/12.13.0/x64/bin/node]"
+    },
+    {
+      "pc": "0x0000000100301f54",
+      "symbol": "v8::internal::Heap::AllocateRawWithLightRetry(int, v8::internal::AllocationType, v8::internal::AllocationAlignment) [/Users/magicdawn/.nvs/node/12.13.0/x64/bin/node]"
+    },
+    {
+      "pc": "0x0000000100301fcf",
+      "symbol": "v8::internal::Heap::AllocateRawWithRetryOrFail(int, v8::internal::AllocationType, v8::internal::AllocationAlignment) [/Users/magicdawn/.nvs/node/12.13.0/x64/bin/node]"
+    },
+    {
+      "pc": "0x00000001002cebc7",
+      "symbol": "v8::internal::Factory::NewFillerObject(int, bool, v8::internal::AllocationType) [/Users/magicdawn/.nvs/node/12.13.0/x64/bin/node]"
+    },
+    {
+      "pc": "0x00000001005f7725",
+      "symbol": "v8::internal::Runtime_AllocateInYoungGeneration(int, unsigned long*, v8::internal::Isolate*) [/Users/magicdawn/.nvs/node/12.13.0/x64/bin/node]"
+    },
+    {
+      "pc": "0x000000010092fbd9",
+      "symbol": "Builtins_CEntry_Return1_DontSaveFPRegs_ArgvOnStack_NoBuiltinExit [/Users/magicdawn/.nvs/node/12.13.0/x64/bin/node]"
+    },
+    {
+      "pc": "0x00000001008af803",
+      "symbol": "Builtins_StringSubstring [/Users/magicdawn/.nvs/node/12.13.0/x64/bin/node]"
+    }
+  ],
+  "javascriptHeap": {
+    "totalMemory": 2165768192,
+    "totalCommittedMemory": 2156486664,
+    "usedMemory": 1931948104,
+    "availableMemory": 176167840,
+    "memoryLimit": 2197815296,
+    "heapSpaces": {
+      "read_only_space": {
+        "memorySize": 262144,
+        "committedMemory": 32568,
+        "capacity": 261872,
+        "used": 32296,
+        "available": 229576
+      },
+      "new_space": {
+        "memorySize": 33554432,
+        "committedMemory": 25435568,
+        "capacity": 16759808,
+        "used": 2901744,
+        "available": 13858064
+      },
+      "old_space": {
+        "memorySize": 2067902464,
+        "committedMemory": 2067205296,
+        "capacity": 1979545608,
+        "used": 1866272320,
+        "available": 113273288
+      },
+      "code_space": {
+        "memorySize": 1998848,
+        "committedMemory": 1862624,
+        "capacity": 1605664,
+        "used": 1605664,
+        "available": 0
+      },
+      "map_space": {
+        "memorySize": 2887680,
+        "committedMemory": 2787984,
+        "capacity": 2178480,
+        "used": 2178480,
+        "available": 0
+      },
+      "large_object_space": {
+        "memorySize": 57958400,
+        "committedMemory": 57958400,
+        "capacity": 57856864,
+        "used": 57856864,
+        "available": 0
+      },
+      "code_large_object_space": {
+        "memorySize": 1204224,
+        "committedMemory": 1204224,
+        "capacity": 1100736,
+        "used": 1100736,
+        "available": 0
+      },
+      "new_large_object_space": {
+        "memorySize": 0,
+        "committedMemory": 0,
+        "capacity": 16759808,
+        "used": 0,
+        "available": 16759808
+      }
+    }
+  },
+  "resourceUsage": {
+    "userCpuSeconds": 268.506,
+    "kernelCpuSeconds": 1037.48,
+    "cpuConsumptionPercent": 74.6279,
+    "maxRss": 2705720344576,
+    "pageFaults": {
+      "IORequired": 0,
+      "IONotRequired": 1398799
+    },
+    "fsActivity": {
+      "reads": 0,
+      "writes": 0
+    }
+  },
+  "libuv": [
+  ],
+  "environmentVariables": {
+    "ELECTRON_MIRROR": "https://cdn.npm.taobao.org/dist/electron/",
+    "npm_package_devDependencies_lint_staged": "latest",
+    "MANPATH": "/usr/local/man:",
+    "npm_package_devDependencies_prettier": "latest",
+    "FLOW_BINARY_MIRROR": "https://github.com/facebook/flow/releases/download/v",
+    "TERM_PROGRAM": "iTerm.app",
+    "NODE": "/Users/magicdawn/.nvs/node/12.13.0/x64/bin/node",
+    "npm_package_dependencies_cheerio": "^1.0.0-rc.3",
+    "INIT_CWD": "/Users/magicdawn/projects/bj-hospital-vis",
+    "ANDROID_HOME": "/Users/magicdawn/Library/Android/sdk",
+    "SSLKEYLOGFILE": "/Users/magicdawn/tls/sslkeylog.log",
+    "npm_package_dependencies_moment": "^2.24.0",
+    "npm_package_devDependencies__magicdawn_prettier_config": "^0.0.1",
+    "npm_config_version_git_tag": "true",
+    "SHELL": "/bin/zsh",
+    "TERM": "xterm-256color",
+    "MY_ZSH_HOME": "/Users/magicdawn/OneDrive/sync/config/zsh",
+    "npm_package_devDependencies_mocha": "^6.1.4",
+    "HOMEBREW_BOTTLE_DOMAIN": "https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles",
+    "CATALINA_HOME": "/Users/magicdawn/Downloads/dev_soft/apache-tomcat-9.0.0.M21",
+    "npm_package_devDependencies_vue_template_compiler": "^2.6.10",
+    "TMPDIR": "/var/folders/p3/8x7mfff1475dbphhtx3vtp500000gn/T/",
+    "npm_config_init_license": "MIT",
+    "TERM_PROGRAM_VERSION": "3.3.7",
+    "ANDROID_SDK_ROOT": "/Users/magicdawn/Library/Android/sdk",
+    "npm_package_scripts_dev": "poi src/index.js --serve --port 4100",
+    "TERM_SESSION_ID": "w0t0p0:63E1A384-8F2C-4658-828A-8170EC5B2238",
+    "NWJS_URLBASE": "https://cdn.npm.taobao.org/dist/nwjs/v",
+    "npm_package_dependencies_umi_request": "^1.2.14",
+    "npm_package_dependencies__magicdawn_x": "git://github.com/magicdawn/x.git",
+    "npm_config_registry": "http://npm.intra.xiaojukeji.com/",
+    "npm_config___registry_npm_taobao_org__email": "magicdawn@qq.com",
+    "npm_config_home": "https://www.npmjs.org",
+    "ZSH": "/Users/magicdawn/.oh-my-zsh",
+    "npm_package_readmeFilename": "README.md",
+    "npm_config__didi_registry": "http://registry.npm.xiaojukeji.com",
+    "USER": "magicdawn",
+    "npm_package_description": ">",
+    "npm_package_dependencies_mapbox_gl": "^1.6.0",
+    "npm_package_license": "ISC",
+    "npm_package_devDependencies_less_loader": "^5.0.0",
+    "npm_package_devDependencies_html_external_webpack_plugin": "^0.0.2",
+    "NVS_USE_XZ": "1",
+    "npm_package_dependencies__turf_turf": "^5.1.6",
+    "npm_package_devDependencies_codecov": "^3.3.0",
+    "SSH_AUTH_SOCK": "/private/tmp/com.apple.launchd.vgGlgeEoUx/Listeners",
+    "npm_package_dependencies_lodash": "^4.17.15",
+    "npm_package_devDependencies_babel_plugin_lodash": "^3.3.4",
+    "__CF_USER_TEXT_ENCODING": "0x1F5:0x19:0x34",
+    "HOMEBREW_NO_AUTO_UPDATE": "1",
+    "npm_package_devDependencies_less": "^3.10.3",
+    "npm_package_devDependencies_eslint": "^6.7.2",
+    "npm_execpath": "/Users/magicdawn/.npm-global/lib/node_modules/yarn/bin/yarn.js",
+    "npm_package_dependencies_sqlite3": "^4.1.1",
+    "npm_package_husky_hooks_pre_commit": "lint-staged",
+    "PAGER": "less",
+    "VIRTUAL_ENV_DISABLE_PROMPT": "1",
+    "npm_package_devDependencies_babel_plugin_import": "^1.13.0",
+    "LSCOLORS": "Gxfxcxdxbxegedabagacad",
+    "NVS_HOME": "/Users/magicdawn/.nvs",
+    "PATH": "/var/folders/p3/8x7mfff1475dbphhtx3vtp500000gn/T/yarn--1576916172705-0.49763411864598184:/Users/magicdawn/projects/bj-hospital-vis/node_modules/.bin:/Users/magicdawn/.config/yarn/link/node_modules/.bin:/Users/magicdawn/.nvs/node/12.13.0/x64/libexec/lib/node_modules/npm/bin/node-gyp-bin:/Users/magicdawn/.nvs/node/12.13.0/x64/lib/node_modules/npm/bin/node-gyp-bin:/Users/magicdawn/.nvs/node/12.13.0/x64/bin/node_modules/npm/bin/node-gyp-bin:/usr/local/opt/mysql@5.7/bin:/usr/local/heroku/bin:/Users/magicdawn/.pyenv/shims:/Users/magicdawn/.yarn/bin:/Users/magicdawn/.npm-global/bin:/Users/magicdawn/.nvs/default/bin:/usr/local/opt/openssl/bin:.:/Users/magicdawn/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/magicdawn/gopath/bin:/usr/local/share/dotnet:/Users/magicdawn/.composer/vendor/bin:/usr/local/sbin/:/Users/magicdawn/.fzf/bin",
+    "npm_config_argv": "{\"remain\":[],\"cooked\":[\"run\",\"dev\"],\"original\":[\"dev\"]}",
+    "npm_package_dependencies_vue_mgl": "^0.3.0",
+    "npm_package_dependencies_sequelize": "^5.21.3",
+    "npm_config___registry_npm_taobao_org__always_auth": "",
+    "_": "/Users/magicdawn/projects/bj-hospital-vis/node_modules/.bin/poi",
+    "npm_package_dependencies_vue": "^2.6.10",
+    "npm_package_dependencies_poi": "^12.7.4",
+    "NVS_OS": "darwin",
+    "npm_package_dependencies_ant_design_vue": "^1.4.10",
+    "PWD": "/Users/magicdawn/projects/bj-hospital-vis",
+    "npm_package_dependencies_yargs": "^15.0.2",
+    "PUPPETEER_DOWNLOAD_HOST": "https://cdn.npm.taobao.org/dist",
+    "JAVA_HOME": "/Library/Java/JavaVirtualMachines/jdk1.8.0_211.jdk/Contents/Home",
+    "EDITOR": "vim",
+    "CHROMEDRIVER_CDNURL": "https://cdn.npm.taobao.org/dist/chromedriver",
+    "NPM_CHECK_INSTALLER": "cnpm",
+    "npm_lifecycle_event": "dev",
+    "LANG": "zh_CN.UTF-8",
+    "npm_package_name": "bj-hospital-vis",
+    "ITERM_PROFILE": "Default",
+    "npm_package_dependencies_ms": "^2.1.2",
+    "NODE_PATH": "/Users/magicdawn/.npm-global/lib/node_modules:/Users/magicdawn/node_modules",
+    "npm_package_scripts_build": "poi src/index.js --prod",
+    "npm_config_version_commit_hooks": "true",
+    "npm_config_progress": "true",
+    "npm_config__stock_registry": "http://10.255.53.83/repository/npm-group/",
+    "XPC_FLAGS": "0x0",
+    "npm_package_dependencies_promise_retry": "^0.2.0",
+    "SENTRYCLI_CDNURL": "https://cdn.npm.taobao.org/dist/sentry-cli",
+    "npm_config_bin_links": "true",
+    "npm_package_main": "index.js",
+    "XPC_SERVICE_NAME": "0",
+    "npm_package_version": "1.0.0",
+    "GPG_TTY": "/dev/ttys000",
+    "COLORFGBG": "11;15",
+    "HOME": "/Users/magicdawn",
+    "SHLVL": "2",
+    "PYENV_SHELL": "zsh",
+    "npm_package_devDependencies_should": "^13.2.3",
+    "npm_package_devDependencies_nyc": "^14.0.0",
+    "npm_package_devDependencies_eslint_plugin_vue": "^6.0.1",
+    "npm_config___registry_npm_taobao_org__username": "magicdawn",
+    "LC_TERMINAL_VERSION": "3.3.7",
+    "ANDROID_AVD_HOME": "/Users/magicdawn/.android/avd",
+    "npm_package_dependencies_dotenv": "^8.2.0",
+    "npm_package_devDependencies__magicdawn_eslint_config": "^0.0.1",
+    "npm_config_save_prefix": "^",
+    "npm_config_strict_ssl": "true",
+    "CONFIG_HOME": "/Users/magicdawn/OneDrive/sync/config",
+    "SASS_BINARY_SITE": "https://cdn.npm.taobao.org/dist/node-sass",
+    "npm_package_devDependencies_husky": "latest",
+    "npm_package_devDependencies_babel_eslint": "^10.0.3",
+    "npm_config_version_git_message": "v%s",
+    "PHANTOMJS_CDNURL": "https://cdn.npm.taobao.org/dist/phantomjs",
+    "ITERM_SESSION_ID": "w0t0p0:63E1A384-8F2C-4658-828A-8170EC5B2238",
+    "OPERADRIVER_CDNURL": "https://cdn.npm.taobao.org/dist/operadriver",
+    "npm_package_devDependencies_vue_loader": "^15.7.2",
+    "LOGNAME": "magicdawn",
+    "LESS": "-R",
+    "YARN_WRAP_OUTPUT": "false",
+    "GROOVY_HOME": "/usr/local/opt/groovy/libexec",
+    "SDKMAN_DIR": "/Users/magicdawn/.sdkman",
+    "npm_lifecycle_script": "poi src/index.js --serve --port 4100",
+    "LC_CTYPE": "zh_CN.UTF-8",
+    "CLASSPATH": ".:/Library/Java/JavaVirtualMachines/jdk1.8.0_211.jdk/Contents/Home/lib:/Users/magicdawn/Downloads/dev_soft/apache-tomcat-9.0.0.M21/lib/servlet-api.jar",
+    "npm_package_dependencies_vuex": "^3.1.2",
+    "npm_package_lint_staged____js_less_vue__1": "git add",
+    "GOPATH": "/Users/magicdawn/gopath",
+    "PGDATA": "$HOME/data/pgdata",
+    "PKG_CONFIG_PATH": "/usr/local/lib/pkgconfig:/usr/local/opt/libffi/lib/pkgconfig",
+    "npm_package_dependencies_promise_map": "^0.0.2",
+    "npm_package_lint_staged____js_less_vue__0": "prettier --write",
+    "npm_config_version_git_sign": "",
+    "npm_config_ignore_scripts": "",
+    "npm_config_user_agent": "yarn/1.19.1 npm/? node/v12.13.0 darwin x64",
+    "LC_TERMINAL": "iTerm2",
+    "npm_config_sharp_binary_host": "https://cdn.npm.taobao.org/dist/sharp",
+    "npm_config_init_version": "1.0.0",
+    "npm_config_ignore_optional": "",
+    "DOT_FILES": "https://raw.githubusercontent.com/magicdawn/magicdawn/master/dot_files",
+    "npm_package_dependencies_vue_router": "^3.1.3",
+    "npm_package_dependencies_next_page_kit": "^0.0.3",
+    "NVS_ROOT": "/Users/magicdawn/.nvs",
+    "COLORTERM": "truecolor",
+    "npm_node_execpath": "/Users/magicdawn/.nvs/node/12.13.0/x64/bin/node",
+    "npm_config_version_tag_prefix": "v",
+    "npm_config_prefix": "/Users/magicdawn/.npm-global",
+    "TS_NODE_COMPILER_OPTIONS": "{\"module\":\"commonjs\"}",
+    "NODE_ENV": "development",
+    "POI_JSX": "react",
+    "WEBPACK_DEV_SERVER": "true"
+  },
+  "userLimits": {
+    "core_file_size_blocks": {
+      "soft": 0,
+      "hard": "unlimited"
+    },
+    "data_seg_size_kbytes": {
+      "soft": "unlimited",
+      "hard": "unlimited"
+    },
+    "file_size_blocks": {
+      "soft": "unlimited",
+      "hard": "unlimited"
+    },
+    "max_locked_memory_bytes": {
+      "soft": "unlimited",
+      "hard": "unlimited"
+    },
+    "max_memory_size_kbytes": {
+      "soft": "unlimited",
+      "hard": "unlimited"
+    },
+    "open_files": {
+      "soft": 24576,
+      "hard": "unlimited"
+    },
+    "stack_size_bytes": {
+      "soft": 8388608,
+      "hard": 67104768
+    },
+    "cpu_time_seconds": {
+      "soft": "unlimited",
+      "hard": "unlimited"
+    },
+    "max_user_processes": {
+      "soft": 2784,
+      "hard": 2784
+    },
+    "virtual_memory_kbytes": {
+      "soft": "unlimited",
+      "hard": "unlimited"
+    }
+  },
+  "sharedObjects": [
+    "/Users/magicdawn/.nvs/node/12.13.0/x64/bin/node",
+    "/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation",
+    "/usr/lib/libSystem.B.dylib",
+    "/usr/lib/libc++.1.dylib",
+    "/usr/lib/libobjc.A.dylib",
+    "/usr/lib/libfakelink.dylib",
+    "/usr/lib/libDiagnosticMessagesClient.dylib",
+    "/usr/lib/libicucore.A.dylib",
+    "/usr/lib/libz.1.dylib",
+    "/usr/lib/libc++abi.dylib",
+    "/usr/lib/system/libcache.dylib",
+    "/usr/lib/system/libcommonCrypto.dylib",
+    "/usr/lib/system/libcompiler_rt.dylib",
+    "/usr/lib/system/libcopyfile.dylib",
+    "/usr/lib/system/libcorecrypto.dylib",
+    "/usr/lib/system/libdispatch.dylib",
+    "/usr/lib/system/libdyld.dylib",
+    "/usr/lib/system/libkeymgr.dylib",
+    "/usr/lib/system/liblaunch.dylib",
+    "/usr/lib/system/libmacho.dylib",
+    "/usr/lib/system/libquarantine.dylib",
+    "/usr/lib/system/libremovefile.dylib",
+    "/usr/lib/system/libsystem_asl.dylib",
+    "/usr/lib/system/libsystem_blocks.dylib",
+    "/usr/lib/system/libsystem_c.dylib",
+    "/usr/lib/system/libsystem_configuration.dylib",
+    "/usr/lib/system/libsystem_coreservices.dylib",
+    "/usr/lib/system/libsystem_darwin.dylib",
+    "/usr/lib/system/libsystem_dnssd.dylib",
+    "/usr/lib/system/libsystem_featureflags.dylib",
+    "/usr/lib/system/libsystem_info.dylib",
+    "/usr/lib/system/libsystem_m.dylib",
+    "/usr/lib/system/libsystem_malloc.dylib",
+    "/usr/lib/system/libsystem_networkextension.dylib",
+    "/usr/lib/system/libsystem_notify.dylib",
+    "/usr/lib/system/libsystem_sandbox.dylib",
+    "/usr/lib/system/libsystem_secinit.dylib",
+    "/usr/lib/system/libsystem_kernel.dylib",
+    "/usr/lib/system/libsystem_platform.dylib",
+    "/usr/lib/system/libsystem_pthread.dylib",
+    "/usr/lib/system/libsystem_symptoms.dylib",
+    "/usr/lib/system/libsystem_trace.dylib",
+    "/usr/lib/system/libunwind.dylib",
+    "/usr/lib/system/libxpc.dylib",
+    "/System/Library/CoreServices/Encodings/libSimplifiedChineseConverter.dylib"
+  ]
+}
