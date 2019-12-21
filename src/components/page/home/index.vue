@@ -47,54 +47,56 @@
     </div>
 
     <CollapsePanel class="left-panel" side="left" :gap="10" v-model="showLeftPanel">
-      <div class="title">医院筛选</div>
+      <div class="panel-inner">
+        <div class="title">医院筛选</div>
 
-      <a-form-item label="名称搜索" :label-col="{span: 6}" :wrapper-col="{span: 16}">
-        <a-auto-complete
-          :dataSource="searchResult"
-          style="width: 200px"
-          @select="handleSearchSelect"
-          @search="handleSearch"
-          placeholder="搜索"
-        />
-      </a-form-item>
-
-      <a-form :layout="'horizontal'">
-        <a-form-item label="地区" :label-col="{span: 6}" :wrapper-col="{span: 16}">
-          <a-select v-model="currentAdcode" @change="handleDistrictChange">
-            <a-select-option v-for="item in districtList" :key="item.adcode" :value="item.adcode">
-              {{ item.name }}
-            </a-select-option>
-          </a-select>
+        <a-form-item label="名称搜索" :label-col="{span: 6}" :wrapper-col="{span: 16}">
+          <a-auto-complete
+            :dataSource="searchResult"
+            style="width: 200px"
+            @select="handleSearchSelect"
+            @search="handleSearch"
+            placeholder="搜索"
+          />
         </a-form-item>
 
-        <a-form-item label="评级" :label-col="{span: 6}" :wrapper-col="{span: 16}">
-          <a-select v-model="currentRank">
-            <a-select-option v-for="item in ALL_RANK" :key="item" :value="item">
-              {{ item }}
-            </a-select-option>
-          </a-select>
-        </a-form-item>
+        <a-form :layout="'horizontal'">
+          <a-form-item label="地区" :label-col="{span: 6}" :wrapper-col="{span: 16}">
+            <a-select v-model="currentAdcode" @change="handleDistrictChange">
+              <a-select-option v-for="item in districtList" :key="item.adcode" :value="item.adcode">
+                {{ item.name }}
+              </a-select-option>
+            </a-select>
+          </a-form-item>
 
-        <a-form-item label="分类" :label-col="{span: 6}" :wrapper-col="{span: 16}">
-          <a-select v-model="currentCategory">
-            <a-select-option v-for="item in ALL_CATEGORY" :key="item" :value="item">
-              {{ item }}
-            </a-select-option>
-          </a-select>
-        </a-form-item>
-      </a-form>
+          <a-form-item label="评级" :label-col="{span: 6}" :wrapper-col="{span: 16}">
+            <a-select v-model="currentRank">
+              <a-select-option v-for="item in ALL_RANK" :key="item" :value="item">
+                {{ item }}
+              </a-select-option>
+            </a-select>
+          </a-form-item>
 
-      <a-card :title="'Info'" size="small" class="info">
-        当前共 {{ currentList.length }} 家医院
-      </a-card>
+          <a-form-item label="分类" :label-col="{span: 6}" :wrapper-col="{span: 16}">
+            <a-select v-model="currentCategory">
+              <a-select-option v-for="item in ALL_CATEGORY" :key="item" :value="item">
+                {{ item }}
+              </a-select-option>
+            </a-select>
+          </a-form-item>
+        </a-form>
 
-      <a-card v-if="lastItem" :title="'上次查看'" size="small" class="last-item">
-        <p>名称: {{ lastItem.name }}</p>
-        <p>代码: {{ lastItem.code }}</p>
-        <p>评级: {{ lastItem.rank }}</p>
-        <p>分类: {{ lastItem.category }}</p>
-      </a-card>
+        <a-card :title="'Info'" size="small" class="info">
+          当前共 {{ currentList.length }} 家医院
+        </a-card>
+
+        <a-card v-if="lastItem" :title="'上次查看'" size="small" class="last-item">
+          <p>名称: {{ lastItem.name }}</p>
+          <p>代码: {{ lastItem.code }}</p>
+          <p>评级: {{ lastItem.rank }}</p>
+          <p>分类: {{ lastItem.category }}</p>
+        </a-card>
+      </div>
     </CollapsePanel>
   </div>
 </template>
@@ -252,7 +254,7 @@ export default {
 
   watch: {
     async currentPolygon(newVal) {
-      if (!this.mapReady) return
+      if (!this.mapReady || !this.inited) return
       await this.$nextTick()
       this.fitBounds()
     },
@@ -294,6 +296,9 @@ export default {
 
       // bounds
       this.fitBounds()
+
+      // mark init complete
+      this.inited = true
     },
 
     async initDistrict() {
@@ -471,12 +476,15 @@ export default {
   top: 80px;
   width: 320px;
   min-height: 200px;
-  max-height: ~'calc(100vh - 80px - 20px)';
-  overflow-y: scroll;
 
   background-color: fade(#eee, 90%);
   border-radius: 5px;
   border: 1px solid #ccc;
+
+  .panel-inner {
+    max-height: ~'calc(100vh - 80px - 30px)';
+    overflow-y: scroll;
+  }
 
   .title {
     text-align: center;
