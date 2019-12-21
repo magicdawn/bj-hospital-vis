@@ -305,25 +305,46 @@ export default {
       })
     },
 
+    async filterHospitalList() {
+      let {fulllist, currentRank, currentCategory, currentAdcode, currentPolygon} = this
+      const start = Date.now()
+      let list = fulllist
+
+      // rank
+      if (currentRank !== ALL) {
+        list = list.filter(item => item.rank === currentRank)
+      }
+
+      // category
+      if (currentCategory !== ALL) {
+        list = list.filter(item => item.category === currentCategory)
+      }
+
+      // polygon filter
+      if (currentPolygon && currentAdcode !== DEFAULT_AD_CODE) {
+        list = await worker.filterHospitalList({
+          list,
+          currentPolygon,
+        })
+      }
+
+      console.log('calc for currentList ', Date.now() - start)
+      return list
+    },
+
     // 计算 currentList
     async computeCurrentList() {
       const start = Date.now()
 
-      let {fulllist, currentRank, currentCategory, currentAdcode, currentPolygon} = this
       let list = []
-      Loading.show()
+      let loadingTimer = setTimeout(function() {
+        Loading.show()
+      }, 200)
 
       try {
-        list = await worker.filterHospitalList({
-          DEFAULT_AD_CODE,
-          ALL,
-          fulllist,
-          currentPolygon,
-          currentAdcode,
-          currentRank,
-          currentCategory,
-        })
+        list = await this.filterHospitalList()
       } finally {
+        clearTimeout(loadingTimer)
         Loading.hide()
       }
 
