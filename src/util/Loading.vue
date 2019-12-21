@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="global-loading-modal" v-if="value">
-    <Spin :spinning="value" size="large" />
+    <Spin size="large" :spinning="value" :delay="delay" />
   </div>
 </template>
 
@@ -15,6 +15,11 @@ const Loading = {
     value: {
       type: Boolean,
       required: true,
+    },
+
+    delay: {
+      type: Number,
+      default: 200, // ms
     },
   },
 }

@@ -66,12 +66,6 @@
             </a-select-option>
           </a-select>
         </a-form-item>
-
-        <!-- <a-form-item :wrapper-col="{push: 6, span: 10}">
-          <a-button type="primary">
-            Submit
-          </a-button>
-        </a-form-item> -->
       </a-form>
     </CollapsePanel>
   </div>
@@ -84,6 +78,7 @@ import {preventObserve} from '@magicdawn/x/vue'
 import Loading from '../../../util/Loading.vue'
 import * as turf from '@turf/turf'
 import CollapsePanel from '../../panel/collapse-panel.vue'
+import worker from '../../../worker/main.js'
 
 const DEFAULT_AD_CODE = '110000'
 const ALL = '全部'
@@ -101,9 +96,10 @@ export default {
       center: [116.42610785602722, 39.91191408461194],
       zoom: 12,
       mapStyle: 'mapbox://styles/mapbox/light-v9',
+      currentItem: null,
 
       fulllist: [],
-      currentItem: null,
+      currentList: [],
 
       districtList: [],
       polygonFillPaint: {
@@ -186,35 +182,6 @@ export default {
       const item = _.find(districtList, {adcode: currentAdcode})
       return item && item.polygon
     },
-
-    currentList() {
-      const start = Date.now()
-      let {fulllist: list, currentRank, currentCategory} = this
-
-      // rank
-      if (currentRank !== ALL) {
-        list = list.filter(item => item.rank === currentRank)
-      }
-
-      // category
-      if (currentCategory !== ALL) {
-        list = list.filter(item => item.category === currentCategory)
-      }
-
-      // polygon filter
-      const {currentPolygon, currentAdcode} = this
-      if (currentPolygon && currentAdcode !== DEFAULT_AD_CODE) {
-        list = list.filter(item => {
-          const {lng, lat} = item
-          const p = [lng, lat]
-          const inPolygon = turf.booleanPointInPolygon(p, currentPolygon)
-          return inPolygon
-        })
-      }
-
-      console.log('calc for currentList ', Date.now() - start)
-      return list
-    },
   },
 
   watch: {
@@ -223,6 +190,22 @@ export default {
       await this.$nextTick()
       this.fitBounds()
     },
+  },
+
+  created() {
+    this.computeCurrentListThrottle = _.throttle(this.computeCurrentList, 50)
+
+    // watch data change
+    const unwatch = this.$watch(function() {
+      return [
+        this.currentAdcode,
+        this.currentPolygon,
+        this.currentRank,
+        this.currentCategory,
+        this.fulllist,
+      ]
+    }, this.computeCurrentListThrottle)
+    this.$once('hook:beforeDestroy', unwatch)
   },
 
   mounted() {
@@ -320,6 +303,31 @@ export default {
           top: 0,
         },
       })
+    },
+
+    // 计算 currentList
+    async computeCurrentList() {
+      const start = Date.now()
+
+      let {fulllist, currentRank, currentCategory, currentAdcode, currentPolygon} = this
+      let list = []
+      Loading.show()
+
+      try {
+        list = await worker.filterHospitalList({
+          DEFAULT_AD_CODE,
+          ALL,
+          fulllist,
+          currentPolygon,
+          currentAdcode,
+          currentRank,
+          currentCategory,
+        })
+      } finally {
+        Loading.hide()
+      }
+
+      this.currentList = list
     },
   },
 }
