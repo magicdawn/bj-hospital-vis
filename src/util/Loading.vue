@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="global-loading-modal" v-if="value">
-    <Spin size="large" :spinning="value" :delay="delay" />
+    <Spin size="large" :spinning="value" />
   </div>
 </template>
 
@@ -26,6 +26,8 @@ const Loading = {
 
 const symbolInstance = Symbol('instance')
 
+let showTimer = null
+
 Loading.singleton = () => {
   if (Loading[symbolInstance]) return Loading[symbolInstance]
 
@@ -37,10 +39,18 @@ Loading.singleton = () => {
 }
 
 Loading.show = delay => {
-  Loading.singleton().value = true
+  if (delay) {
+    clearTimeout(showTimer)
+    showTimer = setTimeout(function() {
+      Loading.singleton().value = true
+    }, delay)
+  } else {
+    Loading.singleton().value = true
+  }
 }
 
 Loading.hide = () => {
+  clearTimeout(showTimer)
   Loading.singleton().value = false
 }
 

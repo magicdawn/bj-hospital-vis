@@ -297,7 +297,7 @@ export default {
       const b = turf.bbox(this.currentPolygon)
       this.map.fitBounds(b, {
         padding: {
-          left: 50,
+          left: 350,
           bottom: 50,
           right: 0,
           top: 0,
@@ -334,17 +334,12 @@ export default {
 
     // 计算 currentList
     async computeCurrentList() {
-      const start = Date.now()
-
+      Loading.show(200)
       let list = []
-      let loadingTimer = setTimeout(function() {
-        Loading.show()
-      }, 200)
 
       try {
         list = await this.filterHospitalList()
       } finally {
-        clearTimeout(loadingTimer)
         Loading.hide()
       }
 
