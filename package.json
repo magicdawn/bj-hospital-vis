@@ -45,7 +45,7 @@
     ]
   },
   "dependencies": {
-    "@magicdawn/x": "^0.0.3",
+    "@magicdawn/x": "latest",
     "@turf/turf": "^5.1.6",
     "ant-design-vue": "^1.4.10",
     "cheerio": "^1.0.0-rc.3",
