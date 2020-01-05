@@ -110,6 +110,7 @@ import Loading from '../../../util/Loading.vue'
 import * as turf from '@turf/turf'
 import CollapsePanel from '../../panel/collapse-panel.vue'
 import worker from '../../../worker/main.js'
+import * as GeoUtil from '@/util/GeoUtil.js'
 
 const DEFAULT_AD_CODE = '110000'
 const ALL = '全部'
@@ -313,7 +314,7 @@ export default {
         const toPolygon = line => [
           line.split(';').map(p => {
             let [lng, lat] = p.split(',')
-            ;[lng, lat] = [lng, lat].map(Number)
+            ;[lng, lat] = GeoUtil.lnglat([lng, lat])
             return [lng, lat]
           }),
         ]
@@ -334,7 +335,11 @@ export default {
       const json = await request.get('/data/hospital-with-geo.json')
 
       const list = json.map(row => {
-        const [code, name, lng, lat, rank, category] = row
+        let [code, name, lng, lat, rank, category] = row
+
+        // to wgs84
+        ;[lng, lat] = GeoUtil.lnglat([lng, lat])
+
         return {code, name, lng, lat, rank, category}
       })
 

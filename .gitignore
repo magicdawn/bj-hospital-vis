@@ -11,3 +11,5 @@ coverage.*
 
 dist
 crawler/.env
+
+report.*.json
