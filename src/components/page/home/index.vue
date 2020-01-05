@@ -44,6 +44,21 @@
             <p>代码: {{ currentItem.code }}</p>
             <p>评级: {{ currentItem.rank }}</p>
             <p>分类: {{ currentItem.category }}</p>
+            <p>
+              无需定点:
+              <template v-if="NO_NEED_PRE_SELECT_CODE_MAP[currentItem.code]">
+                <span :style="{color: 'green'}">
+                  <a-icon type="smile" />
+                  是啊
+                </span>
+              </template>
+              <template v-else>
+                <span :style="{color: 'red'}">
+                  <a-icon type="frown" />
+                  不是
+                </span>
+              </template>
+            </p>
           </a-card>
         </MglPopup>
       </MglMap>
@@ -91,7 +106,24 @@
         </a-form>
 
         <a-card :title="'Info'" size="small" class="info">
-          当前共 {{ currentList.length }} 家医院
+          <p>当前共 {{ currentList.length }} 家医院</p>
+
+          <a-dropdown :overlayStyle="{'z-index': 3000}">
+            <a class="ant-dropdown-link" href="#">
+              当前无需选择医保定点医院({{ currentNoNeedPreSelectList.length }} /
+              {{ NO_NEED_PRE_SELECT.length }})
+              <a-icon type="down" />
+            </a>
+            <a-menu slot="overlay">
+              <a-menu-item
+                v-for="item in currentNoNeedPreSelectList"
+                :key="item.code"
+                @click="e => handleSearchSelect(item.code)"
+              >
+                {{ item.name }}
+              </a-menu-item>
+            </a-menu>
+          </a-dropdown>
         </a-card>
 
         <a-card v-if="lastItem" :title="'上次查看'" size="small" class="last-item">
@@ -99,6 +131,21 @@
           <p>代码: {{ lastItem.code }}</p>
           <p>评级: {{ lastItem.rank }}</p>
           <p>分类: {{ lastItem.category }}</p>
+          <p>
+            无需定点:
+            <template v-if="NO_NEED_PRE_SELECT_CODE_MAP[lastItem.code]">
+              <span :style="{color: 'green'}">
+                <a-icon type="smile" />
+                是啊
+              </span>
+            </template>
+            <template v-else>
+              <span :style="{color: 'red'}">
+                <a-icon type="frown" />
+                不是
+              </span>
+            </template>
+          </p>
         </a-card>
       </div>
     </CollapsePanel>
@@ -119,6 +166,60 @@ const DEFAULT_AD_CODE = '110000'
 const ALL = '全部'
 const ALL_RANK = [ALL, '未评级', '三级', '二级', '一级']
 const ALL_CATEGORY = [ALL, '对内', '对外综合', '对外中医', '对外专科', '社区卫生站', '村卫生室']
+
+/**
+ * 不用医保定点
+ * http://bj.bendibao.com/bjsi/201387/112815.shtm
+ */
+
+const NO_NEED_PRE_SELECT = [
+  '中国医学科学院北京协和医院',
+  '首都医科大学附属北京同仁医院',
+  '首都医科大学宣武医院',
+  '首都医科大学附属北京友谊医院',
+  '北京大学第一医院',
+  '北京大学人民医院',
+  '北京大学第三医院',
+  '北京积水潭医院',
+  '中国中医科学院广安门医院',
+  '首都医科大学附属北京朝阳医院',
+  '中日友好医院',
+  '北京大学首钢医院',
+  '首都医科大学附属北京中医医院',
+  '首都医科大学附属北京天坛医院',
+  '北京世纪坛医院',
+  '北京市健宫医院',
+  '北京市房山区良乡医院',
+  '北京市大兴区人民医院',
+  '北京市石景山医院',
+]
+
+const NO_NEED_PRE_SELECT_CODE = [
+  1110003,
+  1110001,
+  4110001,
+  4110002,
+  2110003,
+  2110002,
+  8110010,
+  2110001,
+  4151001,
+  5110001,
+  1110002,
+  7110001,
+  1151002,
+  3110001,
+  8110002,
+  4110013,
+  11110003,
+  24110001,
+  7110004,
+]
+
+const NO_NEED_PRE_SELECT_CODE_MAP = NO_NEED_PRE_SELECT_CODE.reduce((ret, code) => {
+  ret[code] = true
+  return ret
+}, {})
 
 export default {
   components: {CollapsePanel},
@@ -257,6 +358,16 @@ export default {
 
       return result
     },
+
+    // 当前不用预先选择的医院列表
+    currentNoNeedPreSelectList() {
+      const {currentList} = this
+      const list = currentList.filter(item => {
+        const {code} = item
+        return NO_NEED_PRE_SELECT_CODE_MAP[code]
+      })
+      return list
+    },
   },
 
   watch: {
@@ -281,6 +392,15 @@ export default {
       ]
     }, this.computeCurrentListThrottle)
     this.$once('hook:beforeDestroy', unwatch)
+  },
+
+  beforeCreate() {
+    // none reactive data for render
+    Object.assign(this, {
+      NO_NEED_PRE_SELECT,
+      NO_NEED_PRE_SELECT_CODE,
+      NO_NEED_PRE_SELECT_CODE_MAP,
+    })
   },
 
   mounted() {
@@ -486,7 +606,7 @@ export default {
 }
 
 .left-panel {
-  top: 80px;
+  top: 70px;
   width: 320px;
   min-height: 200px;
 
@@ -513,7 +633,7 @@ export default {
   }
 
   /deep/ .ant-form-item {
-    margin-bottom: 8px;
+    margin-bottom: 2px;
   }
   /deep/ .ant-select-auto-complete {
     width: 100% !important;

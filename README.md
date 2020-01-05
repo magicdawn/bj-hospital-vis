@@ -11,6 +11,7 @@
 
 - 北京行政区 & 医院地理位置来源: amap.com
 - 医院列表: http://ybj.beijing.gov.cn/ddyy/ddyy/list?search_LIKE_yymc=&page=1&sortType=
+- 19 家无需医保定点医院列表: http://bj.bendibao.com/bjsi/201387/112815.shtm
 
 ## Tech Stack
 
