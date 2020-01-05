@@ -308,17 +308,19 @@ export default {
 
       for (let item of arr) {
         const {polyline} = item
+        const lines = polyline.split('|')
+
+        const toPolygon = line => [
+          line.split(';').map(p => {
+            let [lng, lat] = p.split(',')
+            ;[lng, lat] = [lng, lat].map(Number)
+            return [lng, lat]
+          }),
+        ]
+
         const polygon = {
-          type: 'Polygon',
-          coordinates: [
-            [
-              ...polyline.split(';').map(p => {
-                let [lng, lat] = p.split(',')
-                ;[lng, lat] = [lng, lat].map(Number)
-                return [lng, lat]
-              }),
-            ],
-          ],
+          type: 'MultiPolygon',
+          coordinates: [...lines.map(toPolygon)],
         }
 
         preventObserve(polygon)

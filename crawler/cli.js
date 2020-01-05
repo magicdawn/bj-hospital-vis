@@ -134,6 +134,11 @@ const commandGetPolygon = {
     // remove ‘北京城区’
     _.remove(arr, {name: '北京城区'})
 
+    // remove subdistricts
+    for (let item of arr) {
+      delete item.districts
+    }
+
     const file = __dirname + '/../public/data/district.json'
     const content = JSON.stringify(arr)
     fs.writeFileSync(file, content, 'utf8')
