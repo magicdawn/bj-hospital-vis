@@ -1,33 +1,20 @@
 <template lang="html">
   <div class="page-about">
-    <div class="main">
-      <h1>About</h1>
-
-      <p>
-        Created By
-        <a href="https://magicdawn.fun" target="_blank">magicdawn</a>
-      </p>
-
-      <p>
-        Via vue-mgl
-      </p>
-    </div>
+    <VueMarkdown class="markdown-body" :source="md" />
   </div>
 </template>
 
 <script>
+import VueMarkdown from 'vue-markdown'
+import md from 'raw-loader!../../../../README.md'
+
 export default {
+  components: {VueMarkdown},
   data() {
-    return {}
+    return {
+      md,
+    }
   },
-
-  computed: {},
-
-  watch: {},
-
-  mounted() {},
-
-  methods: {},
 }
 </script>
 
@@ -36,12 +23,17 @@ export default {
   padding-top: 60px;
 }
 
-.main {
-  width: 1000px;
+.markdown-body {
+  box-sizing: border-box;
+  min-width: 200px;
+  max-width: 980px;
   margin: 0 auto;
+  padding: 45px;
+}
 
-  h1 {
-    margin-top: 20px;
+@media (max-width: 767px) {
+  .markdown-body {
+    padding: 15px;
   }
 }
 </style>

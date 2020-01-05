@@ -29,6 +29,7 @@ module.exports = {
         css: [
           'https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.css',
           'https://cdn.jsdelivr.net/npm/mapbox-gl@1.6.0/dist/mapbox-gl.css',
+          'https://cdn.jsdelivr.net/npm/github-markdown-css@3.0.1/github-markdown.min.css',
         ],
         js: ['lodash', 'mapbox-gl', 'moment'],
       })
