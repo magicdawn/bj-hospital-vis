@@ -5,8 +5,14 @@ export default [
     component: () => import('./components/page/home/index.vue'),
   },
   {
-    name: 'about',
+    name: 'doc',
+    path: '/doc/:name',
+    component: () => import('./components/page/doc/index.vue'),
+  },
+
+  // compatiable with old /about link
+  {
     path: '/about',
-    component: () => import('./components/page/about/index.vue'),
+    redirect: {name: 'doc', params: {name: 'about'}},
   },
 ]

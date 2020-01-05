@@ -12,7 +12,11 @@
       </div>
 
       <div class="item">
-        <router-link :to="{name: 'about'}">About</router-link>
+        <router-link :to="{name: 'doc', params: {name: 'about'}}">关于</router-link>
+      </div>
+
+      <div class="item">
+        <router-link :to="{name: 'doc', params: {name: 'changelog'}}">更新日志</router-link>
       </div>
     </div>
   </header>
@@ -73,6 +77,15 @@ export default {}
         color: #fff;
       }
     }
+  }
+}
+
+a {
+  text-decoration: none;
+  &:visited,
+  &:hover,
+  &:active {
+    text-decoration: none;
   }
 }
 </style>
