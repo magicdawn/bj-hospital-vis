@@ -58,11 +58,14 @@ export default {}
       margin-left: 0;
     }
 
-    cursor: pointer;
-    padding-left: 10px;
-    padding-right: 10px;
-    height: 60px;
-    line-height: 60px;
+    a {
+      display: block;
+      cursor: pointer;
+      padding-left: 10px;
+      padding-right: 10px;
+      height: 60px;
+      line-height: 60px;
+    }
 
     &:hover {
       background-color: #333;
