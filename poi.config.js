@@ -28,10 +28,14 @@ module.exports = {
         context: __dirname,
         css: [
           'https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.css',
-          'https://cdn.jsdelivr.net/npm/mapbox-gl@1.6.0/dist/mapbox-gl.css',
+          'https://cdn.jsdelivr.net/npm/mapbox-gl@1.6.1/dist/mapbox-gl.css',
           'https://cdn.jsdelivr.net/npm/github-markdown-css@3.0.1/github-markdown.min.css',
         ],
-        js: ['lodash', 'mapbox-gl', 'moment'],
+        js: [
+          'https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js',
+          'https://cdn.jsdelivr.net/npm/moment@2.24.0/moment.min.js',
+          'https://cdn.jsdelivr.net/npm/mapbox-gl@1.6.1/dist/mapbox-gl.min.js',
+        ],
       })
     )
   },
