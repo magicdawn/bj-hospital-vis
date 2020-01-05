@@ -50,16 +50,6 @@
       <div class="panel-inner">
         <div class="title">医院筛选</div>
 
-        <a-form-item label="名称搜索" :label-col="{span: 6}" :wrapper-col="{span: 16}">
-          <a-auto-complete
-            :dataSource="searchResult"
-            style="width: 200px"
-            @select="handleSearchSelect"
-            @search="handleSearch"
-            placeholder="搜索"
-          />
-        </a-form-item>
-
         <a-form :layout="'horizontal'">
           <a-form-item label="地区" :label-col="{span: 6}" :wrapper-col="{span: 16}">
             <a-select v-model="currentAdcode" @change="handleDistrictChange">
@@ -83,6 +73,17 @@
                 {{ item }}
               </a-select-option>
             </a-select>
+          </a-form-item>
+
+          <a-form-item label="名称搜索" :label-col="{span: 6}" :wrapper-col="{span: 16}">
+            <a-auto-complete
+              :dataSource="searchResult"
+              style="width: 200px"
+              @select="handleSearchSelect"
+              @search="handleSearch"
+              placeholder="搜索"
+              :allowClear="true"
+            />
           </a-form-item>
         </a-form>
 
@@ -125,7 +126,8 @@ export default {
 
       center: [116.42610785602722, 39.91191408461194],
       zoom: 12,
-      mapStyle: 'mapbox://styles/mapbox/light-v9',
+      // mapStyle: 'mapbox://styles/mapbox/light-v9',
+      mapStyle: 'mapbox://styles/mapbox/streets-zh-v1',
       currentItem: null,
       lastItem: null,
 
@@ -143,10 +145,10 @@ export default {
           0.1,
 
           10,
-          0.06,
+          0.1,
 
           18,
-          0.01,
+          0.05,
         ],
       },
 
