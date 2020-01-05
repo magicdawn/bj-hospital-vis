@@ -10,7 +10,10 @@
         @load="onMapLoad"
       >
         <!-- bottom right -->
-        <MglNavigationControl position="bottom-right" />
+        <MglControlGroup position="bottom-right">
+          <MglFullscreenControl :container="fullscreenContainer" />
+          <MglNavigationControl />
+        </MglControlGroup>
 
         <MglPolygon
           v-if="currentPolygon"
@@ -124,6 +127,7 @@ export default {
     return {
       ALL_RANK,
       ALL_CATEGORY,
+      fullscreenContainer: document.body,
 
       center: [116.42610785602722, 39.91191408461194],
       zoom: 12,
