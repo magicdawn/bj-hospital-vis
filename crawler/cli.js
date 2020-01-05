@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const fs = require('fs')
 const _ = require('lodash')
 const yargs = require('yargs')
@@ -127,8 +129,11 @@ const commandGetPolygon = {
   desc: 'get bj polygon',
   async handler(argv) {
     const json = await polygon()
-
     const arr = json.districts
+
+    // remove ‘北京城区’
+    _.remove(arr, {name: '北京城区'})
+
     const file = __dirname + '/../public/data/district.json'
     const content = JSON.stringify(arr)
     fs.writeFileSync(file, content, 'utf8')
