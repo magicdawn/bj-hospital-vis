@@ -18,6 +18,7 @@ exports.geo = async address => {
   })
 
   const location = _.get(json, 'geocodes.0.location')
+  const formattedAddress = _.get(json, 'geocodes.0.formatted_address')
   let lng
   let lat
   if (location) {
@@ -27,7 +28,7 @@ exports.geo = async address => {
       .map(s => s && s.trim())
       .map(s => Number(s))
   }
-  return {lng, lat, amapGeoResponse: JSON.stringify(json)}
+  return {lng, lat, formattedAddress, amapGeoResponse: JSON.stringify(json)}
 }
 
 exports.polygon = async function() {
@@ -45,4 +46,6 @@ exports.polygon = async function() {
 if (module === process.mainModule) {
   // exports.geo('北京市大兴区亦庄镇经海二路2号').then(console.log)
   // exports.polygon()
+  // exports.geo('北京大学第三医院').then(console.log)
+  // exports.geo('中国人民解放军第三0二医院').then(console.log)
 }

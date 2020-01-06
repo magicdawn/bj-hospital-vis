@@ -7,6 +7,7 @@ const Sequelize = require('sequelize')
 const sequelize = new Sequelize(require('./sequelize-options.js'))
 const {Op, INTEGER, STRING, NUMBER, DATE} = Sequelize
 const {geo, polygon} = require('./official/use-amap-api.js')
+const {getHospitalName} = require('./util.js')
 require('./dotenv')
 
 const Hospital = sequelize.define(
@@ -147,12 +148,51 @@ const commandGetPolygon = {
   },
 }
 
+const commandGeo20200106 = {
+  command: 'geo-20200106',
+  desc: '处理名称包含多个名词的医院',
+  async handler(argv) {
+    // 名字有多个的
+    const rows = await Hospital.findAll({
+      where: {
+        [Op.or]: [
+          {name: {[Op.like]: '%、%'}},
+          {name: {[Op.like]: '%（%'}},
+          {name: {[Op.like]: '%）%'}},
+        ],
+      },
+    })
+
+    for (let row of rows) {
+      const item = row.get()
+      const {code, name, address} = item
+      const names = getHospitalName(name)
+      let search
+
+      // use first name
+      search = names[0]
+      const {lng, lat, formattedAddress, amapGeoResponse} = await geo(search)
+      await Hospital.update({lng, lat, amapGeoResponse}, {where: {code}})
+      console.log('processed: %O', {
+        old: item,
+        new: {
+          lng,
+          lat,
+          formattedAddress,
+          amapGeoResponse,
+        },
+      })
+    }
+  },
+}
+
 const argv = yargs
   .alias({
     h: 'help',
   })
   .command(commandToSqlite)
   .command(commandGeo)
+  .command(commandGeo20200106)
   .command(commandGenerateJson)
   .command(commandGetPolygon)
   .demandCommand()

@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "poi src/index.js --serve --port 4100",
-    "build": "poi src/index.js --prod"
+    "build": "poi src/index.js --prod",
+    "test": "mocha"
   },
   "keywords": [],
   "author": "",
