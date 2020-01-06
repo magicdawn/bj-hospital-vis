@@ -39,14 +39,13 @@
           ref="mglPopup"
         >
           <a-card :title="currentItem.name" style="min-width: 350px;">
-            <!-- <p>{{ JSON.stringify(currentItem) }}</p> -->
             <p>名称: {{ currentItem.name }}</p>
             <p>代码: {{ currentItem.code }}</p>
             <p>评级: {{ currentItem.rank }}</p>
             <p>分类: {{ currentItem.category }}</p>
             <p>
               无需定点:
-              <template v-if="NO_NEED_PRE_SELECT_CODE_MAP[currentItem.code]">
+              <template v-if="noNeedToPreSelect(currentItem)">
                 <span :style="{color: 'green'}">
                   <a-icon type="smile" />
                   是啊
@@ -108,22 +107,69 @@
         <a-card :title="'Info'" size="small" class="info">
           <p>当前共 {{ currentList.length }} 家医院</p>
 
-          <a-dropdown :overlayStyle="{'z-index': 3000}">
-            <a class="ant-dropdown-link" href="#">
-              当前无需选择医保定点医院({{ currentNoNeedPreSelectList.length }} /
-              {{ NO_NEED_PRE_SELECT.length }})
-              <a-icon type="down" />
-            </a>
-            <a-menu slot="overlay">
-              <a-menu-item
-                v-for="item in currentNoNeedPreSelectList"
-                :key="item.code"
-                @click="e => handleSearchSelect(item.code)"
-              >
-                {{ item.name }}
-              </a-menu-item>
-            </a-menu>
-          </a-dropdown>
+          <p>
+            当前共
+            {{
+              currentNoNeedPreSelectList.length +
+                currentTypeSpecialList.length +
+                currentTypeChineseList.length
+            }}
+            家无需定点医院
+          </p>
+
+          <div>
+            <a-dropdown :overlayStyle="dropdownOverlayStyle">
+              <a class="ant-dropdown-link" href="#">
+                A类({{ currentNoNeedPreSelectList.length }} / {{ NO_NEED_PRE_SELECT.length }})
+                <a-icon type="down" />
+              </a>
+              <a-menu slot="overlay" v-if="currentNoNeedPreSelectList.length">
+                <a-menu-item
+                  v-for="item in currentNoNeedPreSelectList"
+                  :key="item.code"
+                  @click="e => handleSearchSelect(item.code)"
+                >
+                  {{ item.name }}
+                </a-menu-item>
+              </a-menu>
+            </a-dropdown>
+          </div>
+
+          <div>
+            <a-dropdown :overlayStyle="dropdownOverlayStyle">
+              <a class="ant-dropdown-link" href="#">
+                对外专科({{ currentTypeSpecialList.length }} / {{ typeSpecialCount }})
+                <a-icon type="down" />
+              </a>
+              <a-menu slot="overlay" v-if="currentTypeSpecialList.length">
+                <a-menu-item
+                  v-for="item in currentTypeSpecialList"
+                  :key="item.code"
+                  @click="e => handleSearchSelect(item.code)"
+                >
+                  {{ item.name }}
+                </a-menu-item>
+              </a-menu>
+            </a-dropdown>
+          </div>
+
+          <div>
+            <a-dropdown :overlayStyle="dropdownOverlayStyle">
+              <a class="ant-dropdown-link" href="#">
+                对外中医({{ currentTypeChineseList.length }} / {{ typeChineseCount }})
+                <a-icon type="down" />
+              </a>
+              <a-menu slot="overlay" v-if="currentTypeChineseList.length">
+                <a-menu-item
+                  v-for="item in currentTypeChineseList"
+                  :key="item.code"
+                  @click="e => handleSearchSelect(item.code)"
+                >
+                  {{ item.name }}
+                </a-menu-item>
+              </a-menu>
+            </a-dropdown>
+          </div>
         </a-card>
 
         <a-card v-if="lastItem" :title="'上次查看'" size="small" class="last-item">
@@ -133,7 +179,7 @@
           <p>分类: {{ lastItem.category }}</p>
           <p>
             无需定点:
-            <template v-if="NO_NEED_PRE_SELECT_CODE_MAP[lastItem.code]">
+            <template v-if="noNeedToPreSelect(lastItem)">
               <span :style="{color: 'green'}">
                 <a-icon type="smile" />
                 是啊
@@ -165,7 +211,18 @@ import * as GeoUtil from '@/util/GeoUtil.js'
 const DEFAULT_AD_CODE = '110000'
 const ALL = '全部'
 const ALL_RANK = [ALL, '未评级', '三级', '二级', '一级']
-const ALL_CATEGORY = [ALL, '对内', '对外综合', '对外中医', '对外专科', '社区卫生站', '村卫生室']
+
+const CATEGORY_SPECIAL = '对外专科'
+const CATEGORY_CHINESE = '对外中医'
+const ALL_CATEGORY = [
+  ALL,
+  CATEGORY_SPECIAL,
+  CATEGORY_CHINESE,
+  '对内',
+  '对外综合',
+  '社区卫生站',
+  '村卫生室',
+]
 
 /**
  * 不用医保定点
@@ -272,6 +329,12 @@ export default {
        * search
        */
       searchText: '',
+
+      /**
+       * 对外专科 & 中医数量
+       */
+      typeSpecialCount: 0,
+      typeChineseCount: 0,
     }
   },
 
@@ -361,12 +424,17 @@ export default {
 
     // 当前不用预先选择的医院列表
     currentNoNeedPreSelectList() {
-      const {currentList} = this
-      const list = currentList.filter(item => {
-        const {code} = item
-        return NO_NEED_PRE_SELECT_CODE_MAP[code]
-      })
-      return list
+      return preventObserve(
+        _.filter(this.currentList, ({code}) => NO_NEED_PRE_SELECT_CODE_MAP[code])
+      )
+    },
+
+    currentTypeSpecialList() {
+      return preventObserve(_.filter(this.currentList, {category: CATEGORY_SPECIAL}))
+    },
+
+    currentTypeChineseList() {
+      return preventObserve(_.filter(this.currentList, {category: CATEGORY_CHINESE}))
     },
   },
 
@@ -400,6 +468,12 @@ export default {
       NO_NEED_PRE_SELECT,
       NO_NEED_PRE_SELECT_CODE,
       NO_NEED_PRE_SELECT_CODE_MAP,
+
+      dropdownOverlayStyle: {
+        'z-index': 3000,
+        'max-height': '90vh',
+        'overflow-y': 'scroll',
+      },
     })
   },
 
@@ -469,6 +543,12 @@ export default {
 
       preventObserve(list)
       this.fulllist = list
+
+      // count
+      const typeSpecialCount = _.filter(list, {category: CATEGORY_SPECIAL}).length
+      const typeChineseCount = _.filter(list, {category: CATEGORY_CHINESE}).length
+      this.typeSpecialCount = typeSpecialCount
+      this.typeChineseCount = typeChineseCount
     },
 
     onMapLoad({map, component}) {
@@ -537,6 +617,7 @@ export default {
         })
       }
 
+      list = preventObserve(list)
       console.log('calc for currentList ', Date.now() - start)
       return list
     },
@@ -571,6 +652,13 @@ export default {
         center: [lng, lat],
         zoom: 14,
       })
+    },
+
+    noNeedToPreSelect(item) {
+      const {code, category} = item
+      if (NO_NEED_PRE_SELECT_CODE_MAP[code]) return true
+      if ([CATEGORY_SPECIAL, CATEGORY_CHINESE].includes(category)) return true
+      return false
     },
   },
 }
