@@ -1,5 +1,11 @@
 # 更新日志
 
+## 2020-01-12
+
+- 选择区之后特别卡, profile 发现, mapboxgl fitBounds animation, 一个 frame 需要 200+ms, 特别卡。
+  可能与国内加载 mapbox tile 慢有关系，关闭 fitBounds 的 animation。
+- vue 没有 batch update, 不能等全部改变再 `render` / `patch`, 也是个问题。资料较少，暂无解法。
+
 ## 2020-01-06
 
 - 医院位置错误: 名称带括号, 带顿号的简化后重新获取 lnglat, 如北医三院, 地址得到修正

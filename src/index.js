@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueMgl, {mgl} from 'vue-mgl'
+import {get} from 'lodash'
 Vue.use(VueMgl)
 
 import store from './store'
@@ -31,6 +32,10 @@ Vue.use(AutoComplete)
 Vue.use(Dropdown)
 Vue.use(Menu)
 Vue.use(Icon)
+
+if (get(router, 'currentRoute.query.debug')) {
+  Vue.config({performance: true})
+}
 
 new Vue({
   el: '#app',

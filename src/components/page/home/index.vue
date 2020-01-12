@@ -3,8 +3,8 @@
     <div class="map-wrapper">
       <MglMap
         class="map"
-        :center.sync="center"
-        :zoom.sync="zoom"
+        :center="center"
+        :zoom="zoom"
         :mapStyle="mapStyle"
         :attributionControl="false"
         @load="onMapLoad"
@@ -585,6 +585,7 @@ export default {
     fitBounds() {
       const b = turf.bbox(this.currentPolygon)
       this.map.fitBounds(b, {
+        animate: false,
         padding: {
           left: 350,
           bottom: 50,

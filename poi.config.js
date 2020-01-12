@@ -15,11 +15,26 @@ module.exports = {
   configureWebpack(config) {
     // config.devtool = '#inline-source-map'
     config.devtool = false
+    const isProd = process.env.NODE_ENV === 'production'
+
+    const PROD = {
+      externals: {
+        'vue': 'Vue',
+        'vue-router': 'VueRouter',
+        'vuex': 'Vuex',
+      },
+      js: [
+        'https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js',
+        'https://cdn.jsdelivr.net/npm/vue-router@3.1.3/dist/vue-router.min.js',
+        'https://cdn.jsdelivr.net/npm/vuex@3.1.2/dist/vuex.min.js',
+      ],
+    }
 
     config.externals = {
       'mapbox-gl': 'mapboxgl',
       'lodash': '_',
       'moment': 'moment',
+      ...(isProd ? PROD.externals : {}),
     }
 
     config.plugins.push(
@@ -35,6 +50,7 @@ module.exports = {
           'https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js',
           'https://cdn.jsdelivr.net/npm/moment@2.24.0/moment.min.js',
           'https://cdn.jsdelivr.net/npm/mapbox-gl@1.6.1/dist/mapbox-gl.min.js',
+          ...(isProd ? PROD.js : {}),
         ],
       })
     )
