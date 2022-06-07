@@ -38,7 +38,7 @@
           :show="true"
           ref="mglPopup"
         >
-          <a-card :title="currentItem.name" style="min-width: 350px;">
+          <a-card :title="currentItem.name" style="min-width: 350px">
             <p>名称: {{ currentItem.name }}</p>
             <p>代码: {{ currentItem.code }}</p>
             <p>评级: {{ currentItem.rank }}</p>
@@ -46,13 +46,13 @@
             <p>
               无需定点:
               <template v-if="noNeedToPreSelect(currentItem)">
-                <span :style="{color: 'green'}">
+                <span :style="{ color: 'green' }">
                   <a-icon type="smile" />
                   是啊
                 </span>
               </template>
               <template v-else>
-                <span :style="{color: 'red'}">
+                <span :style="{ color: 'red' }">
                   <a-icon type="frown" />
                   不是
                 </span>
@@ -68,7 +68,7 @@
         <div class="title">医院筛选</div>
 
         <a-form :layout="'horizontal'">
-          <a-form-item label="地区" :label-col="{span: 6}" :wrapper-col="{span: 16}">
+          <a-form-item label="地区" :label-col="{ span: 6 }" :wrapper-col="{ span: 16 }">
             <a-select v-model="currentAdcode" @change="handleDistrictChange">
               <a-select-option v-for="item in districtList" :key="item.adcode" :value="item.adcode">
                 {{ item.name }}
@@ -76,7 +76,7 @@
             </a-select>
           </a-form-item>
 
-          <a-form-item label="评级" :label-col="{span: 6}" :wrapper-col="{span: 16}">
+          <a-form-item label="评级" :label-col="{ span: 6 }" :wrapper-col="{ span: 16 }">
             <a-select v-model="currentRank">
               <a-select-option v-for="item in ALL_RANK" :key="item" :value="item">
                 {{ item }}
@@ -84,7 +84,7 @@
             </a-select>
           </a-form-item>
 
-          <a-form-item label="分类" :label-col="{span: 6}" :wrapper-col="{span: 16}">
+          <a-form-item label="分类" :label-col="{ span: 6 }" :wrapper-col="{ span: 16 }">
             <a-select v-model="currentCategory">
               <a-select-option v-for="item in ALL_CATEGORY" :key="item" :value="item">
                 {{ item }}
@@ -92,7 +92,7 @@
             </a-select>
           </a-form-item>
 
-          <a-form-item label="名称搜索" :label-col="{span: 6}" :wrapper-col="{span: 16}">
+          <a-form-item label="名称搜索" :label-col="{ span: 6 }" :wrapper-col="{ span: 16 }">
             <a-auto-complete
               :dataSource="searchResult"
               style="width: 200px"
@@ -111,8 +111,8 @@
             当前共
             {{
               currentNoNeedPreSelectList.length +
-                currentTypeSpecialList.length +
-                currentTypeChineseList.length
+              currentTypeSpecialList.length +
+              currentTypeChineseList.length
             }}
             家无需定点医院
           </p>
@@ -127,7 +127,7 @@
                 <a-menu-item
                   v-for="item in currentNoNeedPreSelectList"
                   :key="item.code"
-                  @click="e => handleSearchSelect(item.code)"
+                  @click="(e) => handleSearchSelect(item.code)"
                 >
                   {{ item.name }}
                 </a-menu-item>
@@ -145,7 +145,7 @@
                 <a-menu-item
                   v-for="item in currentTypeSpecialList"
                   :key="item.code"
-                  @click="e => handleSearchSelect(item.code)"
+                  @click="(e) => handleSearchSelect(item.code)"
                 >
                   {{ item.name }}
                 </a-menu-item>
@@ -163,7 +163,7 @@
                 <a-menu-item
                   v-for="item in currentTypeChineseList"
                   :key="item.code"
-                  @click="e => handleSearchSelect(item.code)"
+                  @click="(e) => handleSearchSelect(item.code)"
                 >
                   {{ item.name }}
                 </a-menu-item>
@@ -180,13 +180,13 @@
           <p>
             无需定点:
             <template v-if="noNeedToPreSelect(lastItem)">
-              <span :style="{color: 'green'}">
+              <span :style="{ color: 'green' }">
                 <a-icon type="smile" />
                 是啊
               </span>
             </template>
             <template v-else>
-              <span :style="{color: 'red'}">
+              <span :style="{ color: 'red' }">
                 <a-icon type="frown" />
                 不是
               </span>
@@ -201,7 +201,7 @@
 <script>
 import _ from 'lodash'
 import request from '../../../request.js'
-import {preventObserve} from '@magicdawn/x/vue'
+import { preventObserve } from '@magicdawn/x/vue'
 import Loading from '../../../util/Loading.vue'
 import * as turf from '@turf/turf'
 import CollapsePanel from '../../panel/collapse-panel.vue'
@@ -252,25 +252,8 @@ const NO_NEED_PRE_SELECT = [
 ]
 
 const NO_NEED_PRE_SELECT_CODE = [
-  1110003,
-  1110001,
-  4110001,
-  4110002,
-  2110003,
-  2110002,
-  8110010,
-  2110001,
-  4151001,
-  5110001,
-  1110002,
-  7110001,
-  1151002,
-  3110001,
-  8110002,
-  4110013,
-  11110003,
-  24110001,
-  7110004,
+  1110003, 1110001, 4110001, 4110002, 2110003, 2110002, 8110010, 2110001, 4151001, 5110001, 1110002,
+  7110001, 1151002, 3110001, 8110002, 4110013, 11110003, 24110001, 7110004,
 ]
 
 const NO_NEED_PRE_SELECT_CODE_MAP = NO_NEED_PRE_SELECT_CODE.reduce((ret, code) => {
@@ -279,7 +262,7 @@ const NO_NEED_PRE_SELECT_CODE_MAP = NO_NEED_PRE_SELECT_CODE.reduce((ret, code) =
 }, {})
 
 export default {
-  components: {CollapsePanel},
+  components: { CollapsePanel },
 
   data() {
     return {
@@ -342,8 +325,8 @@ export default {
     geojson() {
       const ret = {
         type: 'FeatureCollection',
-        features: this.currentList.map(item => {
-          const {code, name, lng, lat, rank, category} = item
+        features: this.currentList.map((item) => {
+          const { code, name, lng, lat, rank, category } = item
           return {
             type: 'Feature',
             geometry: {
@@ -385,19 +368,19 @@ export default {
     },
 
     currentPolygon() {
-      const {currentAdcode, districtList} = this
-      const item = _.find(districtList, {adcode: currentAdcode})
+      const { currentAdcode, districtList } = this
+      const item = _.find(districtList, { adcode: currentAdcode })
       return item && item.polygon
     },
 
     searchResult() {
-      const {searchText, currentList} = this
+      const { searchText, currentList } = this
       let result = currentList
 
       // search
       if (searchText) {
-        result = result.filter(item => {
-          const {name, code} = item
+        result = result.filter((item) => {
+          const { name, code } = item
 
           // name match
           if (name.includes(searchText)) return true
@@ -414,9 +397,9 @@ export default {
       result = result.slice(0, 10)
 
       // transform
-      result = result.map(item => {
-        const {code, name} = item
-        return {value: String(code), text: name}
+      result = result.map((item) => {
+        const { code, name } = item
+        return { value: String(code), text: name }
       })
 
       return result
@@ -425,16 +408,16 @@ export default {
     // 当前不用预先选择的医院列表
     currentNoNeedPreSelectList() {
       return preventObserve(
-        _.filter(this.currentList, ({code}) => NO_NEED_PRE_SELECT_CODE_MAP[code])
+        _.filter(this.currentList, ({ code }) => NO_NEED_PRE_SELECT_CODE_MAP[code])
       )
     },
 
     currentTypeSpecialList() {
-      return preventObserve(_.filter(this.currentList, {category: CATEGORY_SPECIAL}))
+      return preventObserve(_.filter(this.currentList, { category: CATEGORY_SPECIAL }))
     },
 
     currentTypeChineseList() {
-      return preventObserve(_.filter(this.currentList, {category: CATEGORY_CHINESE}))
+      return preventObserve(_.filter(this.currentList, { category: CATEGORY_CHINESE }))
     },
   },
 
@@ -450,7 +433,7 @@ export default {
     this.computeCurrentListThrottle = _.throttle(this.computeCurrentList, 50)
 
     // watch data change
-    const unwatch = this.$watch(function() {
+    const unwatch = this.$watch(function () {
       return [
         this.currentAdcode,
         this.currentPolygon,
@@ -506,11 +489,11 @@ export default {
       const arr = await request.get('/data/district.json')
 
       for (let item of arr) {
-        const {polyline} = item
+        const { polyline } = item
         const lines = polyline.split('|')
 
-        const toPolygon = line => [
-          line.split(';').map(p => {
+        const toPolygon = (line) => [
+          line.split(';').map((p) => {
             let [lng, lat] = p.split(',')
             ;[lng, lat] = GeoUtil.lnglat([lng, lat])
             return [lng, lat]
@@ -532,33 +515,33 @@ export default {
     async initList() {
       const json = await request.get('/data/hospital-with-geo.json')
 
-      const list = json.map(row => {
+      const list = json.map((row) => {
         let [code, name, lng, lat, rank, category] = row
 
         // to wgs84
         ;[lng, lat] = GeoUtil.lnglat([lng, lat])
 
-        return {code, name, lng, lat, rank, category}
+        return { code, name, lng, lat, rank, category }
       })
 
       preventObserve(list)
       this.fulllist = list
 
       // count
-      const typeSpecialCount = _.filter(list, {category: CATEGORY_SPECIAL}).length
-      const typeChineseCount = _.filter(list, {category: CATEGORY_CHINESE}).length
+      const typeSpecialCount = _.filter(list, { category: CATEGORY_SPECIAL }).length
+      const typeChineseCount = _.filter(list, { category: CATEGORY_CHINESE }).length
       this.typeSpecialCount = typeSpecialCount
       this.typeChineseCount = typeChineseCount
     },
 
-    onMapLoad({map, component}) {
+    onMapLoad({ map, component }) {
       this.map = map
       this.mapReady = true
       this.$emit('map-ready')
     },
     async waitMapReady() {
       if (this.mapReady) return
-      return new Promise(r => this.$once('map-ready', r))
+      return new Promise((r) => this.$once('map-ready', r))
     },
 
     hospitalLayerMouseenter(e) {
@@ -568,8 +551,8 @@ export default {
         return
       }
 
-      this.currentItem = {...properties}
-      this.lastItem = {...properties}
+      this.currentItem = { ...properties }
+      this.lastItem = { ...properties }
 
       // force open
       this.$refs.mglPopup && this.$refs.mglPopup.showPopup()
@@ -596,18 +579,18 @@ export default {
     },
 
     async filterHospitalList() {
-      let {fulllist, currentRank, currentCategory, currentAdcode, currentPolygon} = this
+      let { fulllist, currentRank, currentCategory, currentAdcode, currentPolygon } = this
       const start = Date.now()
       let list = fulllist
 
       // rank
       if (currentRank !== ALL) {
-        list = list.filter(item => item.rank === currentRank)
+        list = list.filter((item) => item.rank === currentRank)
       }
 
       // category
       if (currentCategory !== ALL) {
-        list = list.filter(item => item.category === currentCategory)
+        list = list.filter((item) => item.category === currentCategory)
       }
 
       // polygon filter
@@ -619,7 +602,7 @@ export default {
       }
 
       list = preventObserve(list)
-      console.log('calc for currentList ', Date.now() - start)
+      console.log('calc for currentList ', Date.now() - start, list?.length)
       return list
     },
 
@@ -643,12 +626,12 @@ export default {
     },
 
     handleSearchSelect(code) {
-      const item = _.find(this.currentList, {code: Number(code)})
+      const item = _.find(this.currentList, { code: Number(code) })
       if (!item) return
 
-      this.currentItem = {...item}
-      this.lastItem = {...item}
-      const {lng, lat} = item
+      this.currentItem = { ...item }
+      this.lastItem = { ...item }
+      const { lng, lat } = item
       this.map.flyTo({
         center: [lng, lat],
         zoom: 14,
@@ -656,7 +639,7 @@ export default {
     },
 
     noNeedToPreSelect(item) {
-      const {code, category} = item
+      const { code, category } = item
       if (NO_NEED_PRE_SELECT_CODE_MAP[code]) return true
       if ([CATEGORY_SPECIAL, CATEGORY_CHINESE].includes(category)) return true
       return false

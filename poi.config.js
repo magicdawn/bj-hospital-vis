@@ -50,7 +50,7 @@ module.exports = {
           'https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js',
           'https://cdn.jsdelivr.net/npm/moment@2.24.0/moment.min.js',
           'https://cdn.jsdelivr.net/npm/mapbox-gl@1.6.1/dist/mapbox-gl.min.js',
-          ...(isProd ? PROD.js : {}),
+          ...(isProd ? PROD.js : []),
         ],
       })
     )
